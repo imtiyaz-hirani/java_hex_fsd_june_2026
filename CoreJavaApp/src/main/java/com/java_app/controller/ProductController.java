@@ -30,5 +30,15 @@ public class ProductController {
         }
         System.out.println("-----------------------------------------");
 
+        System.out.println("------ Product Count By price-------------");
+        double price = 500;
+
+        try {
+           long count = productService.getProductsByPrice(price);
+            System.out.println("Number of Products falling above the price: " + count);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
     }
 }

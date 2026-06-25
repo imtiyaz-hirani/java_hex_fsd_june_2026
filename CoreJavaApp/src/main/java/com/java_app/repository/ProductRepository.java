@@ -4,10 +4,7 @@ import com.java_app.model.Product;
 import com.java_app.utility.DBConnection;
 import com.java_app.utility.ProductUtility;
 
-import java.sql.CallableStatement;
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -44,5 +41,19 @@ public class ProductRepository {
         List<Product> list =  productUtility.getProductList(resultSet);
         dbConnection.dbClose();
         return list;
+    }
+
+    public long getProductsByPrice(double price) throws SQLException {
+        Connection connection = dbConnection.dbConnect();
+        // first param ? is input price; second param ? is the one we need to read
+        CallableStatement callableStatement = connection.prepareCall("{CALL get_products_by_price_higher(?, ?)}");
+        callableStatement.setDouble(1,price);
+        callableStatement.registerOutParameter(2, Types.BIGINT);
+        // Read the OUT param value coming from the procedure in callableStatement itself
+        callableStatement.executeQuery();
+        // fetch second param/out param value into a variable
+        long count =  callableStatement.getInt(2);
+        dbConnection.dbClose();
+        return count;
     }
 }

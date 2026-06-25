@@ -22,4 +22,8 @@ public class ProductService {
     public List<Product> getAllProductsByCategory(String category) throws SQLException {
         return productRepository.getAllProductsByCategory(category);
     }
+
+    public long getProductsByPrice(double price) throws SQLException {
+        return productRepository.getProductsByPrice(price);
+    }
 }
