@@ -19,5 +19,16 @@ public class ProductController {
         } catch (SQLException e) {
             System.out.println("Operation Failed " + e.getMessage());
         }
+        System.out.println("-----------------------------------------");
+        System.out.println("------ Products By Category-------------");
+        String category = "";
+        try {
+            List<Product> list = productService.getAllProductsByCategory(category);
+            list.forEach(System.out :: println);
+        } catch (SQLException e) {
+            System.out.println("Operation Failed " + e.getMessage());
+        }
+        System.out.println("-----------------------------------------");
+
     }
 }

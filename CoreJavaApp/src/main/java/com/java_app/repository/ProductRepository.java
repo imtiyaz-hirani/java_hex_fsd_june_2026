@@ -2,6 +2,7 @@ package com.java_app.repository;
 
 import com.java_app.model.Product;
 import com.java_app.utility.DBConnection;
+import com.java_app.utility.ProductUtility;
 
 import java.sql.CallableStatement;
 import java.sql.Connection;
@@ -23,25 +24,24 @@ public class ProductRepository {
     * */
 
     DBConnection dbConnection = new DBConnection();
+    ProductUtility productUtility = new ProductUtility();
 
     public List<Product> getAllProducts() throws SQLException {
         Connection connection = dbConnection.dbConnect();
         // call the proc
         CallableStatement callableStatement = connection.prepareCall("{CALL all_products()}");
         ResultSet resultSet =  callableStatement.executeQuery();
+        List<Product> list = productUtility.getProductList(resultSet);
+        dbConnection.dbClose();
+        return list;
+    }
 
-        List<Product> list = new ArrayList<>();
-
-        while(resultSet.next()){
-            // each db row is an object in java
-            Product product = new Product(); // 100X 200X 300X
-            product.setId(resultSet.getInt("id"));
-            product.setTitle(resultSet.getString("title"));
-            product.setPrice(resultSet.getDouble("price"));
-            product.setCategory(resultSet.getString("category"));
-            list.add(product); // [100X, 200X, 300X]
-        }
-
+    public List<Product> getAllProductsByCategory(String category) throws SQLException {
+        Connection connection = dbConnection.dbConnect();
+        CallableStatement callableStatement = connection.prepareCall("{CALL get_products_by_category(?)}");
+        callableStatement.setString(1,category);
+        ResultSet resultSet =  callableStatement.executeQuery();
+        List<Product> list =  productUtility.getProductList(resultSet);
         dbConnection.dbClose();
         return list;
     }

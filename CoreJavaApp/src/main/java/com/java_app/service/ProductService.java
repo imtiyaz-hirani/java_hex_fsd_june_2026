@@ -17,4 +17,9 @@ public class ProductService {
         List<Product> list = productRepository.getAllProducts();
         return list;
     }
+
+
+    public List<Product> getAllProductsByCategory(String category) throws SQLException {
+        return productRepository.getAllProductsByCategory(category);
+    }
 }
