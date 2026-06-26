@@ -105,3 +105,52 @@ VALUES
 (8,5,'2025-06-12',1,300),
 (8,6,'2025-06-12',1,75),
 (8,10,'2025-06-13',1,25);
+
+-- Display names of all customers associated to seller having given name. 
+
+select c.name, p.title
+from customers c 
+JOIN customer_product cp ON c.id = cp.customers_id 
+JOIN products p ON cp.products_id = p.id 
+JOIN seller s ON p.seller_id = s.id
+where s.name LIKE "%tech world%";
+
+
+-- display the seller name, which are selling products that belong to 'Sports' category. 
+
+select distinct s.name 
+from seller s 
+JOIN products p ON s.id = p.seller_id 
+JOIN category c ON c.id = p.category_id
+where c.name LIKE "%sports%";
+
+
+-- Display number of products sold by each seller in DESC order and ignore the sellers who r selling less than 2 products
+-- seller Name  Number_of_products
+
+select s.name as 'Seller Name' , count(s.id) as 'Number_of_products'
+from seller s JOIN products p ON p.seller_id = s.id
+group by s.name
+having Number_of_products > 1
+order by Number_of_products DESC;
+
+/*
+Analysis 
+s.name = "Tech World"
+	1	Tech World	Mumbai	1	Laptop Dell Inspiron	65000	15 inch laptop	20	1	1
+	1	Tech World	Mumbai	2	Wireless Mouse	799	Bluetooth Mouse	100	1	1
+	1	Tech World	Mumbai	3	Samsung 24 Inch Monitor	12000	Full HD Monitor	35	1	1    
+s.name = "Fashion Hub"
+	2	Fashion Hub	Delhi	4	Men T-Shirt	699	Cotton Round Neck	150	2	2
+	2	Fashion Hub	Delhi	5	Women Jeans	1499	Slim Fit Jeans	70	2	2
+s.name= Book Planet
+	3	Book Planet	Pune	6	Java Programming	899	Complete Java Guide	50	3	3
+	3	Book Planet	Pune	7	MySQL for Beginners	650	Learn SQL Easily	60	3	3
+*/
+
+
+
+
+
+
+
