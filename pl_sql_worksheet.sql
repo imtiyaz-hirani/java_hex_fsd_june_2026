@@ -106,5 +106,63 @@ select *
 from products
 where category NOT IN ('computer'); 
 
+-- Create table order 
+create table order_tbl (id int primary key auto_increment, 
+product_id INT, 
+qty int, 
+order_date DATE);
+
+-- ADD a field stock_count to products table
+Alter table products
+ADD COLUMN stock_count INT;
+
+-- update the stock_count 
+update products SET stock_count=2 where id=1;
+update products SET stock_count=1 where id=2;
+update products SET stock_count=0 where id=3;
+
+/*
+Trigger is a program that get call automatically by DB Manager, when a procedure is called. 
+Trigger is attached to a procedure. 
+It gets CALLED, either BEFORE or AFTER the procedure depending on the way we configure it.
+*/
+
+-- I am going to create a trigger to ensure that the insert on order_tbl only happens if the product has enough stock 
+
+insert into order_tbl(product_id, qty,order_date) values (1,1,now());
+
+/*
+NEW.product_id = 1
+NEW.qty = 1
+*/
+DELIMITER $$
+create trigger trg_check_stock_quantity 
+BEFORE INSERT ON order_tbl
+FOR EACH ROW 
+BEGIN
+	DECLARE v_stock INT; 
+    
+	-- fetch stock_count from products for given id (NEW.product_id) & save in variable v_stock
+    select stock_count into v_stock
+    from products
+    where id = NEW.product_id; 
+    
+    -- now i have the available stock_qty in v_stock variable 
+    
+    -- lets check if this v_stock is less than NEW.qty (stock qty requested)
+    if v_stock < NEW.qty THEN
+		SIGNAL sqlstate '45000'
+        SET message_text = 'Not enough stock available for product';
+	End if;
+END
+$$
+
+
+
+
+
+
+
+
 
 
