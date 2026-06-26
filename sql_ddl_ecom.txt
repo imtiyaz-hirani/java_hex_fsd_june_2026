@@ -1,0 +1,96 @@
+-- MySQL Workbench Forward Engineering
+
+-- -----------------------------------------------------
+-- Schema ecom_june_26
+-- -----------------------------------------------------
+
+-- -----------------------------------------------------
+-- Schema ecom_june_26
+-- -----------------------------------------------------
+CREATE SCHEMA IF NOT EXISTS `ecom_june_26` DEFAULT CHARACTER SET utf8 ;
+USE `ecom_june_26` ;
+
+-- -----------------------------------------------------
+-- Table `ecom_june_26`.`category`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `ecom_june_26`.`category` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(255) NULL,
+  `seq` INT NULL,
+  PRIMARY KEY (`id`))
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `ecom_june_26`.`seller`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `ecom_june_26`.`seller` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(255) NULL,
+  `city` VARCHAR(255) NULL,
+  PRIMARY KEY (`id`))
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `ecom_june_26`.`products`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `ecom_june_26`.`products` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `title` VARCHAR(255) NOT NULL,
+  `price` DOUBLE NULL DEFAULT 0,
+  `description` TEXT NULL,
+  `stock_count` INT NULL DEFAULT 0,
+  `category_id` INT NOT NULL,
+  `seller_id` INT NOT NULL,
+  PRIMARY KEY (`id`, `category_id`, `seller_id`),
+  INDEX `fk_products_category_idx` (`category_id` ASC)   ,
+  INDEX `fk_products_seller1_idx` (`seller_id` ASC)   ,
+  CONSTRAINT `fk_products_category`
+    FOREIGN KEY (`category_id`)
+    REFERENCES `ecom_june_26`.`category` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_products_seller1`
+    FOREIGN KEY (`seller_id`)
+    REFERENCES `ecom_june_26`.`seller` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `ecom_june_26`.`customers`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `ecom_june_26`.`customers` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(255) NULL,
+  `email` VARCHAR(255) NULL,
+  PRIMARY KEY (`id`))
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `ecom_june_26`.`customer_product`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `ecom_june_26`.`customer_product` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `customers_id` INT NOT NULL,
+  `products_id` INT NOT NULL,
+  `purchase_date` DATE NULL,
+  `qty` INT NULL,
+  `discount` DOUBLE NULL,
+  PRIMARY KEY (`id`, `customers_id`, `products_id`),
+  INDEX `fk_customers_has_products_products1_idx` (`products_id` ASC)   ,
+  INDEX `fk_customers_has_products_customers1_idx` (`customers_id` ASC)   ,
+  CONSTRAINT `fk_customers_has_products_customers1`
+    FOREIGN KEY (`customers_id`)
+    REFERENCES `ecom_june_26`.`customers` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_customers_has_products_products1`
+    FOREIGN KEY (`products_id`)
+    REFERENCES `ecom_june_26`.`products` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
