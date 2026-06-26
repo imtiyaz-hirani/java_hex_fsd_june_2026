@@ -156,7 +156,24 @@ BEGIN
 	End if;
 END
 $$
+insert into order_tbl(product_id, qty,order_date) values (1,1,now());
 
+/*
+NEW.product_id = 1
+NEW.qty = 1
+*/
+-- trigger for updating the stock count of the product after insert in order table. 
+
+DELIMITER $$
+create trigger trg_update_stock_quantity
+AFTER insert on order_tbl 
+FOR EACH ROW
+BEGIN
+	update products 
+    SET stock_count = stock_count - NEW.qty
+    where id = NEW.product_id; 
+END
+$$
 
 
 
