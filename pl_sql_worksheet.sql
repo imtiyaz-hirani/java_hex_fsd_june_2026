@@ -212,9 +212,63 @@ $$
 select YEAR('2023-07-12');
 select fnComputeAge('1983-11-15');
 
+-- Create a function to compute the discount based on the price and discount_percent and return the actual price
+/*
+product price: 340 
+discount in Percent : 15% 
+actual price : price - (340 * (15/100)) 
+*/
 
+-- Cursors 
+/*
+Cursor is a container which holds your sql , especially select queries 
 
+cur_products = select * from product 
+1. Declare the cursor 
+2. OPEN it 
+3. Loop thru it, until a variable(done) becomes true
+4. CLOSE cursor 
 
+Note: cursors are used inside the procedures 
+*/
+DELIMITER $$
+create procedure get_product_title_by_cursor()
+BEGIN
+	-- declare done variable as false 
+    declare done boolean default false; 
+    declare v_title varchar(255); 
+    
+	-- declare the cursor [save query in cursor]
+    declare product_cur cursor for
+    select title from products ;
+    
+    -- go thru cursor and if there is nothing to display make 'done' as true
+    declare continue handler for not found set done = true; 
+    
+    OPEN product_cur;
+    cursor_loop: 
+		LOOP 
+			fetch product_cur into v_title; -- read the title one by one into v_title
+				
+                if done=true then    -- check if there is any record(title) to be read 
+					leave cursor_loop;
+				end if; 
+		
+        select v_title; -- display the title before you go back to the loop 
+		
+        END LOOP;
+    CLOSE product_cur;
+END
+$$
+/*
+product_cur
+----------
+apple mobile
+oppo mobile
+HP H7
+*/
+CALL get_product_title_by_cursor();
+drop procedure get_product_title_by_cursor;
 
 
 
