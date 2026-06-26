@@ -175,6 +175,51 @@ BEGIN
 END
 $$
 
+-- Functions 
+/*
+- Functions can be used inside the procedures. 
+- Functions can perform the calculations that we could save centrally. 
+- For Ex, MySQl DB, has got pre build functions like now() that displays the date. 
+--- We are going to build our own custom functions for our own use cases of our product/app
+
+Rule: Function has to have a return statement  
+*/
+
+-- create a function that returns age based on DOB. yyyy-MM-dd , age  1983
+DELIMITER $$
+create function fnComputeAge(v_dob varchar(255))
+returns int
+deterministic
+BEGIN
+	DECLARE current_year INT; 
+	DECLARE age INT; 
+    DECLARE dob_year INT; 
+    
+	-- get the current running year 
+    SET current_year = YEAR(curdate());
+    
+    -- get the year from DOB 
+    SET dob_year = YEAR(v_dob);
+    
+    -- calc the age
+    SET age = current_year - dob_year;
+    
+    return age;
+END
+$$
+
+
+select YEAR('2023-07-12');
+select fnComputeAge('1983-11-15');
+
+
+
+
+
+
+
+
+
 
 
 
