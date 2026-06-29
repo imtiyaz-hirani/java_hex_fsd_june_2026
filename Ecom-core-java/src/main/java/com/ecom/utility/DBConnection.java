@@ -17,7 +17,7 @@ public class DBConnection {
             Class.forName("com.mysql.cj.jdbc.Driver");
             // Step 2: Establish the connection and return it
             connection =
-                    DriverManager.getConnection("jdbc:mysql://localhost:3306/ecom_june-26",
+                    DriverManager.getConnection("jdbc:mysql://localhost:3306/ecom_june_26",
                             "root",
                             "deepcoder");
 
