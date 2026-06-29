@@ -1,5 +1,6 @@
 package com.ecom.controller;
 
+import com.ecom.dto.ProductDto;
 import com.ecom.model.Product;
 import com.ecom.service.ProductService;
 
@@ -12,5 +13,9 @@ public class ProductController {
 
     public List<Product> getProductsWithCategoryAndSellerInfo(){
         return productService.getProductsWithCategoryAndSellerInfo();
+    }
+
+    public List<ProductDto> getProductsWithCategoryAndSellerInfoWithDto(){
+        return productService.getProductsWithCategoryAndSellerInfoWithDto();
     }
 }

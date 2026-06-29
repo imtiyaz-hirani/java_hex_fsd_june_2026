@@ -1,5 +1,6 @@
 package com.ecom.repository.impl;
 
+import com.ecom.dto.ProductDto;
 import com.ecom.model.Category;
 import com.ecom.model.Product;
 import com.ecom.model.Seller;
@@ -43,6 +44,34 @@ public class ProductRepositoryImpl implements ProductRepository {
                 product.setCategory(category);
                 product.setSeller(seller);
                 list.add(product);
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        db.dbClose();
+        return list;
+    }
+
+    @Override
+    public List<ProductDto> getProductsWithCategoryAndSellerInfoWithDto() {
+        List<ProductDto> list = new ArrayList<>();
+        try (Connection connection = db.dbConnect()) {
+            String sql = "select p.id, p.title, p.price, c.name as c_name, s.name as s_name " +
+                    "from products p " +
+                    "JOIN category c ON p.category_id = c.id " +
+                    "JOIN seller s ON p.seller_id = s.id";
+            PreparedStatement preparedStatement =  connection.prepareStatement(sql);
+            ResultSet rst = preparedStatement.executeQuery();
+            while(rst.next()){
+                 ProductDto dto = new ProductDto(
+                         rst.getInt("id"),
+                         rst.getString("title"),
+                         rst.getDouble("price"),
+                         rst.getString("c_name"),
+                         rst.getString("s_name")
+                 );
+                list.add(dto);
             }
 
         } catch (SQLException e) {

@@ -1,5 +1,6 @@
 package com.ecom.service;
 
+import com.ecom.dto.ProductDto;
 import com.ecom.model.Product;
 import com.ecom.repository.ProductRepository;
 import com.ecom.repository.impl.ProductRepositoryImpl;
@@ -14,5 +15,9 @@ public class ProductService {
 
     public List<Product> getProductsWithCategoryAndSellerInfo() {
         return productRepository.getProductsWithCategoryAndSellerInfo();
+    }
+
+    public List<ProductDto> getProductsWithCategoryAndSellerInfoWithDto() {
+        return productRepository.getProductsWithCategoryAndSellerInfoWithDto();
     }
 }
