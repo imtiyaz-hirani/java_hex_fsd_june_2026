@@ -1,10 +1,13 @@
 package com.ecom.service;
 
 import com.ecom.dto.ProductDto;
+import com.ecom.enums.SortDirection;
 import com.ecom.model.Product;
 import com.ecom.repository.ProductRepository;
 import com.ecom.repository.impl.ProductRepositoryImpl;
+import com.ecom.utility.ProductSortUtility;
 
+import java.util.Collections;
 import java.util.List;
 
 public class ProductService {
@@ -19,5 +22,11 @@ public class ProductService {
 
     public List<ProductDto> getProductsWithCategoryAndSellerInfoWithDto() {
         return productRepository.getProductsWithCategoryAndSellerInfoWithDto();
+    }
+
+    public List<ProductDto> getProductsSortedByPrice(List<ProductDto> list, SortDirection sortDirection) {
+        // Collections.sort(list, new ProductSortUtility(sortDirection));
+        list.sort(new ProductSortUtility(sortDirection));
+        return list;
     }
 }

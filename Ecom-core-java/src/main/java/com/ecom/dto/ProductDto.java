@@ -1,6 +1,6 @@
 package com.ecom.dto;
 
-public record ProductDto(
+public record ProductDto (
         int id,
         String title,
         double price,

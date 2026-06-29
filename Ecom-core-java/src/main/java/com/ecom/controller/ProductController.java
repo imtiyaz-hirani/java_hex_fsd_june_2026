@@ -1,6 +1,7 @@
 package com.ecom.controller;
 
 import com.ecom.dto.ProductDto;
+import com.ecom.enums.SortDirection;
 import com.ecom.model.Product;
 import com.ecom.service.ProductService;
 
@@ -17,5 +18,11 @@ public class ProductController {
 
     public List<ProductDto> getProductsWithCategoryAndSellerInfoWithDto(){
         return productService.getProductsWithCategoryAndSellerInfoWithDto();
+    }
+
+
+    public List<ProductDto> getProductsSortedByPrice(SortDirection sortDirection) {
+        List<ProductDto> list = productService.getProductsWithCategoryAndSellerInfoWithDto();
+        return productService.getProductsSortedByPrice(list, sortDirection);
     }
 }
