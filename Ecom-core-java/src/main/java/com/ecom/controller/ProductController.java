@@ -8,6 +8,8 @@ import com.ecom.service.ProductService;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 public class ProductController {
 
@@ -68,5 +70,14 @@ public class ProductController {
 
     public List<Product> filterByCriteria(List<Product> list, FilterDto filterDto) {
         return productService.filterByCriteria(list,filterDto);
+    }
+
+
+    public Map<String, Integer> getProductsForEachSeller(List<Product> list) {
+        return productService.getProductsForEachSeller(list);
+    }
+
+    public Map<String, Integer> getProductsByCategory(List<Product> list) {
+        return productService.getProductsByCategory(list);
     }
 }

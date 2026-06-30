@@ -9,7 +9,10 @@ import com.ecom.repository.impl.ProductRepositoryImpl;
 import com.ecom.utility.ProductSortUtility;
 
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 public class ProductService {
     // Reach out to Repository using polymorphic object
@@ -38,5 +41,25 @@ public class ProductService {
                 .filter(p->filterDto.listSellerNames().contains(p.getSeller().getName()))
                 .filter(p-> (p.getPrice() <= filterDto.endPrice() && p.getPrice() >= filterDto.startPrice()))
                 .toList();
+    }
+
+    public Map<String, Integer> getProductsForEachSeller(List<Product> list) { //[p1,p2,p3,p4]
+        Map<String, Integer> outMap = new HashMap<>();
+
+        list.stream()
+                .collect(Collectors.groupingBy(p -> p.getSeller().getName()))
+                .forEach((key, value) -> outMap.put(key, value.size()));
+
+        return outMap;
+    }
+
+    public Map<String, Integer> getProductsByCategory(List<Product> list) {
+        Map<String, Integer> outMap = new HashMap<>();
+
+        list.stream()
+                .collect(Collectors.groupingBy(p-> p.getCategory().getName()))
+                .forEach((key, value) -> outMap.put(key,value.size() ));
+
+        return outMap;
     }
 }
