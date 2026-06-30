@@ -1,5 +1,6 @@
 package com.ecom.controller;
 
+import com.ecom.dto.FilterDto;
 import com.ecom.dto.ProductDto;
 import com.ecom.enums.SortDirection;
 import com.ecom.model.Product;
@@ -63,5 +64,9 @@ public class ProductController {
                 .map(p->p.getSeller().getName())
                 .distinct()
                 .toList();
+    }
+
+    public List<Product> filterByCriteria(List<Product> list, FilterDto filterDto) {
+        return productService.filterByCriteria(list,filterDto);
     }
 }

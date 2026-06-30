@@ -3,8 +3,10 @@ package com.ecom;
 import com.ecom.controller.CustomerController;
 import com.ecom.controller.ProductController;
 import com.ecom.dto.CustomerDto;
+import com.ecom.dto.FilterDto;
 import com.ecom.dto.ProductDto;
 import com.ecom.enums.SortDirection;
+import com.ecom.model.Category;
 import com.ecom.model.Product;
 
 import java.util.List;
@@ -47,5 +49,29 @@ public class EcomApp {
         System.out.println("---------Display Seller ---------");
         List<String> sellerNameList = productController.getSellerNames(list);
         sellerNameList.forEach(System.out:: println);
+
+        list.forEach(System.out::println);
+
+        /*
+        In a given dataset :
+        we want to offer filter options to the end user:
+        1. Filter by one of more category
+        2. Filter by one or more sellers
+        3. Filter by particular price(1000) / less than / greater than
+        * */
+//        List<String> listCategoryNames = List.of("Electronics", "Books");  //first filter
+//        List<String> listSellerNames = List.of("Tech World", "Fashion Hub");
+//
+//        double startPrice = 1000;
+//        double endPrice = 2000;
+        FilterDto filterDto = new FilterDto(
+                List.of("Electronics", "Books"),
+                List.of("Tech World", "Fashion Hub"),
+                500,
+                2000
+        );
+        System.out.println("-------------------Filtered List-----------------------");
+        List<Product> filteredList =  productController.filterByCriteria(list, filterDto);
+        filteredList.forEach(System.out::println);
     }
 }

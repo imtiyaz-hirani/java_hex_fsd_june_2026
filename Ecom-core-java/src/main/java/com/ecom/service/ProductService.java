@@ -1,5 +1,6 @@
 package com.ecom.service;
 
+import com.ecom.dto.FilterDto;
 import com.ecom.dto.ProductDto;
 import com.ecom.enums.SortDirection;
 import com.ecom.model.Product;
@@ -28,5 +29,14 @@ public class ProductService {
         // Collections.sort(list, new ProductSortUtility(sortDirection));
         list.sort(new ProductSortUtility(sortDirection)); //[dto1,dto2,dto3]
         return list;
+    }
+
+    public List<Product> filterByCriteria(List<Product> list, FilterDto filterDto) { //[p1,p2,p3,p4,p5]
+        return
+        list.stream()
+                .filter(p-> filterDto.listCategoryNames().contains(p.getCategory().getName()))
+                .filter(p->filterDto.listSellerNames().contains(p.getSeller().getName()))
+                .filter(p-> (p.getPrice() <= filterDto.endPrice() && p.getPrice() >= filterDto.startPrice()))
+                .toList();
     }
 }
