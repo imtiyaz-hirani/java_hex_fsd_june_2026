@@ -24,7 +24,7 @@ public class EcomApp {
         System.out.println("-----------Sorted List by Price: DESC>>>>>>>>");
         List<ProductDto> sortedListPriceDesc = productController.getProductsSortedByPrice(SortDirection.DESC);
         sortedListPriceDesc.forEach(System.out :: println);
-    */
+
         CustomerController customerController = new CustomerController();
         int productId = 1;
         List<CustomerDto> list = customerController.fetchCustomerDetailsByProductWithCatAndSellerInfoWithDto(productId);
@@ -32,5 +32,20 @@ public class EcomApp {
         System.out.println("-------------Sorted as per date DESC order-------");
         List<CustomerDto> sortedList = customerController.sortCustomerListByPurchaseDate(SortDirection.DESC, productId);
         sortedList.forEach(System.out :: println);
+        */
+        ProductController productController = new ProductController();
+        List<Product> list = productController.getProductsWithCategoryAndSellerInfo();
+
+        System.out.println("---------Display Product Titles---------");
+        List<String> productTitleList = productController.getProductTitles(list);
+        productTitleList.forEach(System.out:: println);
+
+        System.out.println("---------Display Categories---------");
+        List<String> categoryNameList = productController.getCategoryNames(list);
+        categoryNameList.forEach(System.out:: println);
+
+        System.out.println("---------Display Seller ---------");
+        List<String> sellerNameList = productController.getSellerNames(list);
+        sellerNameList.forEach(System.out:: println);
     }
 }
