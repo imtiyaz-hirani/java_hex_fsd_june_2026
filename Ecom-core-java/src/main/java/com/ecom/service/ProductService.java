@@ -26,7 +26,7 @@ public class ProductService {
 
     public List<ProductDto> getProductsSortedByPrice(List<ProductDto> list, SortDirection sortDirection) {
         // Collections.sort(list, new ProductSortUtility(sortDirection));
-        list.sort(new ProductSortUtility(sortDirection));
+        list.sort(new ProductSortUtility(sortDirection)); //[dto1,dto2,dto3]
         return list;
     }
 }

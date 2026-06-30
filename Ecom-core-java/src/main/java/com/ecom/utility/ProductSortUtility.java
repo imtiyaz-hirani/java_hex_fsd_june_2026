@@ -22,7 +22,7 @@ public class ProductSortUtility implements Comparator<ProductDto> {
 //        }
 //        // [450 , 580]
 //        if(dto1.price() < dto2.price()) {
-//            return -1; // return a -ve number to do thing
+//            return -1; // return a -ve number to do nothing
 //        }
 //
 //        return 0; // it considers both the prices as equal
