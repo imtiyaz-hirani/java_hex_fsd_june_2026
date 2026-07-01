@@ -6,6 +6,15 @@ public class Category {
     private int sequence;
     //constructor , getter, setter, toString
 
+    public Category() {
+    }
+
+    public Category(int id, String name, int sequence) {
+        this.id = id;
+        this.name = name;
+        this.sequence = sequence;
+    }
+
     public int getId() {
         return id;
     }

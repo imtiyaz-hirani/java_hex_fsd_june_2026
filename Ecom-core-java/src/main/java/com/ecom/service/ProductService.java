@@ -38,9 +38,14 @@ public class ProductService {
     }
 
     public List<Product> filterByCriteria(List<Product> list, FilterDto filterDto) { //[p1,p2,p3,p4,p5]
+
         return
         list.stream()
-                .filter(p-> filterDto.listCategoryNames().contains(p.getCategory().getName()))
+                .filter(p-> {
+                    if(filterDto.listCategoryNames().isEmpty())
+                        return true;
+                   return filterDto.listCategoryNames().contains(p.getCategory().getName());
+                })
                 .filter(p->filterDto.listSellerNames().contains(p.getSeller().getName()))
                 .filter(p-> (p.getPrice() <= filterDto.endPrice() && p.getPrice() >= filterDto.startPrice()))
                 .toList();

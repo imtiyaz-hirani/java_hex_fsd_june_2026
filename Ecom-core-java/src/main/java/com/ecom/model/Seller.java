@@ -5,6 +5,15 @@ public class Seller {
     private String name;
     private String city;
 
+    public Seller() {
+    }
+
+    public Seller(int id, String name, String city) {
+        this.id = id;
+        this.name = name;
+        this.city = city;
+    }
+
     //constructor , getter, setter, toString
 
     public int getId() {

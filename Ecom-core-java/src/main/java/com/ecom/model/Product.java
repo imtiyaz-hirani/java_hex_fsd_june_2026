@@ -17,6 +17,19 @@ public class Product {
 
     //constructor , getter, setter, toString
 
+    public Product() {
+    }
+
+    public Product(int id, String title, double price, String description, int stockCount, Category category, Seller seller) {
+        this.id = id;
+        this.title = title;
+        this.price = price;
+        this.description = description;
+        this.stockCount = stockCount;
+        this.category = category;
+        this.seller = seller;
+    }
+
     public int getId() {
         return id;
     }
