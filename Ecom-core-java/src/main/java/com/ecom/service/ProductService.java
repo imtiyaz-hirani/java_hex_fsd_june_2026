@@ -8,10 +8,7 @@ import com.ecom.repository.ProductRepository;
 import com.ecom.repository.impl.ProductRepositoryImpl;
 import com.ecom.utility.ProductSortUtility;
 
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class ProductService {
@@ -61,5 +58,42 @@ public class ProductService {
                 .forEach((key, value) -> outMap.put(key,value.size() ));
 
         return outMap;
+    }
+
+    public List<String> getProductTitlesWithoutStreams(List<Product> list) {
+        // Without streams - traditional way
+        List<String> listTitles = new ArrayList<>();
+
+        for(Product p  : list){
+            if(listTitles.contains(p.getTitle()))
+                continue;
+
+            listTitles.add(p.getTitle());
+        }
+        return listTitles;
+    }
+
+    public List<String> getProductTitles(List<Product> list) {
+        // Step 1: Convert list to Stream
+        // Step 2: Perform op : map
+        // Step 3: convert back to list
+
+        return list.stream()
+                .map(Product::getTitle)
+                .toList();
+    }
+
+    public List<String> getCategoryNames(List<Product> list) {
+        return list.stream()
+                .map(p -> p.getCategory().getName())
+                .distinct() // gets rid of repetition
+                .toList();
+    }
+
+    public List<String> getSellerNames(List<Product> list) {
+        return list.parallelStream()
+                .map(p->p.getSeller().getName())
+                .distinct()
+                .toList();
     }
 }

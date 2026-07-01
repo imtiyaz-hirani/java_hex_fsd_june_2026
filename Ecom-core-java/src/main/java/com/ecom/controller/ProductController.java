@@ -31,41 +31,21 @@ public class ProductController {
     }
 
     public List<String> getProductTitlesWithoutStreams(List<Product> list) {
-        // Without streams - traditional way
-        List<String> listTitles = new ArrayList<>();
+       return productService.getProductTitlesWithoutStreams(list);
 
-        for(Product p  : list){
-            if(listTitles.contains(p.getTitle()))
-                continue;
-
-            listTitles.add(p.getTitle());
-        }
-        return listTitles;
     }
 
     public List<String> getProductTitles(List<Product> list) {
-        // Step 1: Convert list to Stream
-        // Step 2: Perform op : map
-        // Step 3: convert back to list
-
-        return list.stream()
-                .map(Product::getTitle)
-                .toList();
-
-    }
+        return productService.getProductTitles(list);
+     }
 
     public List<String> getCategoryNames(List<Product> list) { //[p1,p2,p3,p4]
-        return list.stream()
-                .map(p -> p.getCategory().getName())
-                .distinct() // gets rid of repetition
-                .toList();
+        return productService.getCategoryNames(list);
     }
 
     public List<String> getSellerNames(List<Product> list) {
-        return list.parallelStream()
-                .map(p->p.getSeller().getName())
-                .distinct()
-                .toList();
+        return productService.getSellerNames(list);
+
     }
 
     public List<Product> filterByCriteria(List<Product> list, FilterDto filterDto) {
