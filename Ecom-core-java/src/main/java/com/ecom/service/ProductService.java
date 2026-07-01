@@ -26,8 +26,14 @@ public class ProductService {
     }
 
     public List<ProductDto> getProductsSortedByPrice(List<ProductDto> list, SortDirection sortDirection) {
-        // Collections.sort(list, new ProductSortUtility(sortDirection));
+        if(list == null)
+            throw new RuntimeException("List cannot be null");
+
+        if(list.isEmpty())
+            return list;
+
         list.sort(new ProductSortUtility(sortDirection)); //[dto1,dto2,dto3]
+        // Collections.sort(list, new ProductSortUtility(sortDirection));
         return list;
     }
 
@@ -95,5 +101,9 @@ public class ProductService {
                 .map(p->p.getSeller().getName())
                 .distinct()
                 .toList();
+    }
+
+    public int sum(int x,int y){
+        return x+y;
     }
 }
