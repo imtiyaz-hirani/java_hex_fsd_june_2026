@@ -18,10 +18,41 @@ import java.util.List;
 public class ProductServiceTest {
 
     ProductService productService;
+    List<Product> list;
+    Seller seller1;
+    Seller seller2;
+    Seller seller3;
+    Category catElectronics;
+    Category catApparel;
+    Category catGroceries;
+
+    Product product1;
+    Product product2;
+    Product product3;
+    Product product4;
+    Product product5;
 
     @BeforeEach
     public void init(){
         productService = new ProductService(); //100X
+        // Create Seller Objects
+        seller1 = new Seller(1, "TechGadgets Ltd", "New York");
+        seller2 = new Seller(2, "SportZone", "Chicago");
+        seller3 = new Seller(3, "GreenBean Co", "Seattle");
+
+        // Create Category Objects
+        catElectronics = new Category(101, "Electronics", 1);
+        catApparel = new Category(102, "Apparel", 2);
+        catGroceries = new Category(103, "Groceries", 3);
+
+        // Create Product Objects
+        product1 = new Product(1, "Wireless Mouse", 29.99, "Ergonomic 2.4G mouse", 150, catElectronics, seller1);
+        product2 = new Product(2, "Mechanical Keyboard", 89.99, "RGB backlit keyboard", 45, catElectronics, seller1);
+        product3 = new Product(3, "Running Shoes", 79.95, "Lightweight breathable shoes", 80, catApparel, seller2);
+        product4 = new Product(4, "Organic Coffee Beans", 14.50, "Dark roast 1kg bag", 200, catGroceries, seller3);
+        product5 = new Product(5, "Gaming Headset", 49.99, "Surround sound mic headset", 60, catElectronics, seller1);
+
+        list = new ArrayList<>(Arrays.asList(product1,product2, product3, product4, product5));
     }
 
     @Test
@@ -59,24 +90,7 @@ public class ProductServiceTest {
     @Test
     public void filterByCriteriaTest(){
         // Build your test data
-        // Create Seller Objects
-        Seller seller1 = new Seller(1, "TechGadgets Ltd", "New York");
-        Seller seller2 = new Seller(2, "SportZone", "Chicago");
-        Seller seller3 = new Seller(3, "GreenBean Co", "Seattle");
 
-        // Create Category Objects
-        Category catElectronics = new Category(101, "Electronics", 1);
-        Category catApparel = new Category(102, "Apparel", 2);
-        Category catGroceries = new Category(103, "Groceries", 3);
-
-        // Create Product Objects
-        Product product1 = new Product(1, "Wireless Mouse", 29.99, "Ergonomic 2.4G mouse", 150, catElectronics, seller1);
-        Product product2 = new Product(2, "Mechanical Keyboard", 89.99, "RGB backlit keyboard", 45, catElectronics, seller1);
-        Product product3 = new Product(3, "Running Shoes", 79.95, "Lightweight breathable shoes", 80, catApparel, seller2);
-        Product product4 = new Product(4, "Organic Coffee Beans", 14.50, "Dark roast 1kg bag", 200, catGroceries, seller3);
-        Product product5 = new Product(5, "Gaming Headset", 49.99, "Surround sound mic headset", 60, catElectronics, seller1);
-
-        List<Product> list = new ArrayList<>(Arrays.asList(product1,product2, product3, product4, product5));
         FilterDto dto = new FilterDto(
                 List.of(catElectronics.getName(),catGroceries.getName() ),
                 List.of(seller1.getName(),seller3.getName() ),
@@ -104,6 +118,18 @@ public class ProductServiceTest {
         listExpected = List.of(product1, product5);
         Assertions.assertEquals( listExpected ,productService.filterByCriteria(list, dto));
 
+    }
+
+    @Test
+    public void getProductTitlesTest(){
+        List<String> listTitles = List.of(
+                product1.getTitle(),
+                product2.getTitle(),
+                product3.getTitle(),
+                product4.getTitle(),
+                product5.getTitle());
+
+        Assertions.assertEquals(listTitles , productService.getProductTitles(list));
     }
     @AfterEach
     public void afterTest(){
