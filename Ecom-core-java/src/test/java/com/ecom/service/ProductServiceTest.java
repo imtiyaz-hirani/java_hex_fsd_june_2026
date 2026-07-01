@@ -11,9 +11,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 public class ProductServiceTest {
 
@@ -130,6 +128,16 @@ public class ProductServiceTest {
                 product5.getTitle());
 
         Assertions.assertEquals(listTitles , productService.getProductTitles(list));
+    }
+
+    @Test
+    public void getProductsForEachSellerTest(){
+        Map<String, Integer> outMap = new HashMap<>();
+        outMap.put(seller1.getName(), 3);
+        outMap.put(seller2.getName(), 1);
+        outMap.put(seller3.getName(), 1);
+
+        Assertions.assertEquals(outMap , productService.getProductsForEachSeller(list));
     }
     @AfterEach
     public void afterTest(){
