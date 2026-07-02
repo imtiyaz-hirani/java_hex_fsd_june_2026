@@ -13,10 +13,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CustomerRepositoryImpl implements CustomerRepository {
-    DBConnection db = new DBConnection();
+    DBConnection db = DBConnection.getInstance();
 
     @Override
     public List<CustomerDto> fetchCustomerDetailsByProductWithCatAndSellerInfoWithDto(int productId) {
+        System.out.println("DB Conn Object at fetchCustomerDetailsByProductWithCatAndSellerInfoWithDto: this loc ==> " +db);
+
         List<CustomerDto> list = new ArrayList<>();
 
         try (Connection connection = db.dbConnect()) {
@@ -53,6 +55,7 @@ public class CustomerRepositoryImpl implements CustomerRepository {
             throw new RuntimeException(e);
         }
         db.dbClose();
+
         return list;
     }
 }

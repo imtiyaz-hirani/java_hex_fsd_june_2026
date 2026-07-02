@@ -14,9 +14,13 @@ import java.util.Map;
 
 public class EcomApp {
     public static void main(String[] args) {
+        System.out.println("Thread name " + Thread.currentThread().getName());
         ProductController productController = new ProductController();
         List<Product> list = productController.getProductsWithCategoryAndSellerInfo();
-       /*
+         CustomerController customerController = new CustomerController();
+        List<CustomerDto> list2 = customerController.fetchCustomerDetailsByProductWithCatAndSellerInfoWithDto(2);
+
+        /*
         List<ProductDto> list = productController.getProductsWithCategoryAndSellerInfoWithDto();
         System.out.println("----------------Product Info with Category & Seller with Dto-------------");
         list.forEach(System.out :: println);
@@ -75,7 +79,7 @@ public class EcomApp {
         System.out.println("-------------------Filtered List-----------------------");
         List<Product> filteredList =  productController.filterByCriteria(list, filterDto);
         filteredList.forEach(System.out::println);
-        */
+
 
         System.out.println("-----------Number of Products for each seller-------");
         Map<String,Integer> mapProductsBySeller =  productController.getProductsForEachSeller(list);
@@ -85,5 +89,7 @@ public class EcomApp {
         System.out.println("-----------Number of Products for each category-------");
         Map<String,Integer>  mapProductByCategory =  productController.getProductsByCategory(list);
         mapProductByCategory.forEach((key,value)-> System.out.println(key + "  " + value));
+         */
     }
+
 }

@@ -16,9 +16,10 @@ import java.util.List;
 
 public class ProductRepositoryImpl implements ProductRepository {
 
-    DBConnection db = new DBConnection();
+    DBConnection db = DBConnection.getInstance();
     @Override
     public List<Product> getProductsWithCategoryAndSellerInfo() {
+        System.out.println("DB Conn Object at getProductsWithCategoryAndSellerInfo: this loc ==> " +db);
         // Est DB Connection
         List<Product> list = new ArrayList<>();
         try (Connection connection = db.dbConnect()) {
@@ -55,6 +56,7 @@ public class ProductRepositoryImpl implements ProductRepository {
 
     @Override
     public List<ProductDto> getProductsWithCategoryAndSellerInfoWithDto() {
+        System.out.println("DB Conn Object at getProductsWithCategoryAndSellerInfoWithDto: this loc ==> " +db);
         List<ProductDto> list = new ArrayList<>();
         try (Connection connection = db.dbConnect()) {
             String sql = "select p.id, p.title, p.price, c.name as c_name, s.name as s_name " +

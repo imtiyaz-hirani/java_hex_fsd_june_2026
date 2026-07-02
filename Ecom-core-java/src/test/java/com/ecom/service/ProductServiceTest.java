@@ -139,6 +139,12 @@ public class ProductServiceTest {
 
         Assertions.assertEquals(outMap , productService.getProductsForEachSeller(list));
     }
+
+    @Test
+    public void getProductsWithCategoryAndSellerInfoTest(){
+        Assertions.assertEquals(10 ,productService.getProductsWithCategoryAndSellerInfo().size());
+
+    }
     @AfterEach
     public void afterTest(){
         productService = null; // Releasing the object

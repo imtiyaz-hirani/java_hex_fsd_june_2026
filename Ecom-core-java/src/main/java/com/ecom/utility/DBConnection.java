@@ -6,8 +6,17 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class DBConnection {
+    // Singleton Pattern: Single object across all classes of the project
 
     private Connection connection;
+    private static final DBConnection dbConnection = new DBConnection();
+
+    private DBConnection() {
+    }
+
+    public static  DBConnection getInstance(){
+        return dbConnection;
+    }
 
     // This method must return Connection obj so that
     // programmer can execute proc call using it
