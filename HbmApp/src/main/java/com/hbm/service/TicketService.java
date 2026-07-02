@@ -21,4 +21,8 @@ public class TicketService {
         ticket.setStatus(Status.OPEN);
        return ticketDao.saveTicket(ticket);
     }
+
+    public Ticket getById(int id) {
+        return ticketDao.getById(id);
+    }
 }

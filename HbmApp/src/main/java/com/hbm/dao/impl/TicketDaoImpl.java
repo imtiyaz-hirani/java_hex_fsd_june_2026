@@ -39,4 +39,22 @@ public class TicketDaoImpl implements TicketDao {
          }
 
     }
+
+    @Override
+    public Ticket getById(int id) {
+        Transaction transaction = null;
+        try(Session session = sessionFactory.openSession()) {
+            transaction = session.beginTransaction();
+            Ticket ticket =  session.find(Ticket.class, id);
+            transaction.commit();
+
+            return ticket;
+        }
+        catch(Exception e){
+            if(transaction != null)
+                transaction.rollback();
+            throw new RuntimeException(e.getMessage());
+        }
+
+    }
 }

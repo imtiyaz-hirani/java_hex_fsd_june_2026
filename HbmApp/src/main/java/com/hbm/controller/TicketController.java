@@ -9,4 +9,8 @@ public class TicketController {
     public Ticket insertTicket(Ticket ticket) {
         return ticketService.insertTicket(ticket);
     }
+
+    public Ticket getById(int id) {
+        return ticketService.getById(id);
+    }
 }
