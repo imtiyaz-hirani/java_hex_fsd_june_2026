@@ -1,5 +1,6 @@
 package com.hbm.config;
 
+import com.hbm.model.Ticket;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
@@ -23,6 +24,7 @@ public class HbmConfig {
                 config.setProperty(AvailableSettings.HBM2DDL_AUTO, "update");
 
                 // Register the model classes
+                config.addAnnotatedClass(Ticket.class);
 
                 StandardServiceRegistry registry = new StandardServiceRegistryBuilder()
                         .applySettings(config.getProperties())
