@@ -31,4 +31,8 @@ public class TicketService {
     public List<Ticket> getAll() {
         return ticketDao.getAll();
     }
+
+    public void deleteById(int id) {
+        ticketDao.deleteById(id);
+    }
 }

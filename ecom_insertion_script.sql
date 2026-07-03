@@ -148,6 +148,41 @@ s.name= Book Planet
 	3	Book Planet	Pune	7	MySQL for Beginners	650	Learn SQL Easily	60	3	3
 */
 
+-- Fetch Product info with Category and Seller Info 
+
+select p.id, p.title, p.price, c.name as c_name, s.name as s_name 
+from products p 
+JOIN category c ON p.category_id = c.id 
+JOIN seller s ON p.seller_id = s.id;
+
+-- List of Customers with product and other info that have purchased product based on given ID , sort as per purchase date
+
+select c.id, c.name as customer_name, c.email, 
+		cp.purchase_date, cp.qty, 
+        p.title, p.price, 
+        cat.name as category_name, 
+        s.name as seller_name
+from customers c 
+JOIN customer_product cp ON c.id = cp.customers_id 
+JOIN products p  ON p.id = cp.products_id
+JOIN seller s ON p.seller_id = s.id 
+JOIN category cat ON p.category_id = cat.id
+where p.id=1;
+
+/*
+	Count products for each seller. 
+    Count products for each category 
+    Count number of Customers for each Product 
+    Compute avg buying price for each customer 
+*/
+
+select s.name as seller_name, count(p.id) as number_of_products 
+from products p JOIN seller s ON p.seller_id = s.id
+group by s.name;
+
+
+
+
 
 
 

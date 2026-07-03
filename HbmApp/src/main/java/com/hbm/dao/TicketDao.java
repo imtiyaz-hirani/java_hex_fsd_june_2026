@@ -10,4 +10,6 @@ public interface TicketDao {
     Ticket getById(int id);
 
     List<Ticket> getAll();
+
+    void deleteById(int id);
 }

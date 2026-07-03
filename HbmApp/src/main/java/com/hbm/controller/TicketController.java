@@ -19,4 +19,8 @@ public class TicketController {
     public List<Ticket> getAll() {
         return ticketService.getAll();
     }
+
+    public void deleteById(int id) {
+        ticketService.deleteById(id);
+    }
 }

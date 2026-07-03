@@ -56,10 +56,22 @@ public class SupportFlowApp {
                         System.out.println("Ticket fetched for id " + id );
                         System.out.println(ticket);
                     }
+
                 }
                 case 3 ->{
                     List<Ticket> list = ticketController.getAll();
                     list.forEach(System.out :: println);
+                }
+                case 4 ->{
+                    System.out.println("Enter id to delete");
+                    int id = sc.nextInt();
+                    try {
+                        ticketController.deleteById(id);
+                        System.out.println("Ticket deleted");
+                    }
+                    catch(RuntimeException e){
+                        System.out.println("Could not delete ticket: " + e.getMessage());
+                    }
                 }
             }
         }

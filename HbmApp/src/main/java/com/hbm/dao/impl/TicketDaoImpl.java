@@ -79,6 +79,25 @@ public class TicketDaoImpl implements TicketDao {
         }
 
     }
+
+    @Override
+    public void deleteById(int id) {
+        Transaction transaction = null;
+        try(Session session = sessionFactory.openSession()) {
+            transaction = session.beginTransaction();
+            // Fetch ticket object by id to make sure id is valid
+            Ticket ticket =  session.find(Ticket.class, id);
+            if(ticket != null) {
+                session.remove(ticket); // remove after confirmation
+                transaction.commit();
+                return;
+            }
+
+             transaction.rollback();
+             throw new RuntimeException("Invalid ID given ");
+        }
+
+    }
 }
 /*
 Native Query:
