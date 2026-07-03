@@ -1,5 +1,7 @@
 package com.hbm.dao;
 
+import com.hbm.enums.Priority;
+import com.hbm.enums.Status;
 import com.hbm.model.Ticket;
 
 import java.util.List;
@@ -18,4 +20,6 @@ public interface TicketDao {
     List<Ticket> getByCustomer(int customerId);
 
     List<Ticket> getByCustomerV2(int customerId);
+
+    List<Ticket> filterByPriorityAndStatus(Priority priority, Status status);
 }

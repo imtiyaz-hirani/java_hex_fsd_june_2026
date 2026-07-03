@@ -1,5 +1,7 @@
 package com.hbm.controller;
 
+import com.hbm.enums.Priority;
+import com.hbm.enums.Status;
 import com.hbm.model.Ticket;
 import com.hbm.service.TicketService;
 
@@ -30,5 +32,9 @@ public class TicketController {
 
     public List<Ticket> getByCustomer(int customerId) {
         return ticketService.getByCustomer(customerId);
+    }
+
+    public List<Ticket> filterByPriorityAndStatus(Priority priority, Status status) {
+        return ticketService.filterByPriorityAndStatus(priority, status);
     }
 }

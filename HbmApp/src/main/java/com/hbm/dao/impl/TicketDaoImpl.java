@@ -2,12 +2,19 @@ package com.hbm.dao.impl;
 
 import com.hbm.config.HbmConfig;
 import com.hbm.dao.TicketDao;
+import com.hbm.enums.Priority;
+import com.hbm.enums.Status;
 import com.hbm.model.Ticket;
+import jakarta.persistence.criteria.CriteriaBuilder;
+import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.Predicate;
+import jakarta.persistence.criteria.Root;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class TicketDaoImpl implements TicketDao {
@@ -138,6 +145,39 @@ public class TicketDaoImpl implements TicketDao {
             transaction.commit();
             return list;
         }
+    }
+
+    @Override
+    public List<Ticket> filterByPriorityAndStatus(Priority priority, Status status) {
+
+        try(Session session = sessionFactory.openSession()){
+
+            // Create a CriteriaBuilder: because this will help us define conditions(predicates) and create query
+            CriteriaBuilder cb =  session.getCriteriaBuilder();
+
+            // Create the query
+            CriteriaQuery<Ticket> cq =  cb.createQuery(Ticket.class);
+
+            // create a from statement for the query
+            Root<Ticket> root = cq.from(Ticket.class); // this is DB record
+
+            // to define the where clause -- predicates
+            List<Predicate> predicates = new ArrayList<>();
+
+            if(priority != null)
+                predicates.add(cb.equal(root.get("priority") , priority));
+
+            if(status != null)
+                predicates.add(cb.equal(root.get("status") , status));
+
+            // where needs a var args(...) which means it needs an array not a List
+            cq.where(predicates.toArray(Predicate[]::new));
+
+            Query<Ticket> query =  session.createQuery(cq);
+
+            return query.list();
+        }
+
     }
 }
 /*

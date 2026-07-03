@@ -3,6 +3,7 @@ package com.hbm;
 import com.hbm.config.HbmConfig;
 import com.hbm.controller.TicketController;
 import com.hbm.enums.Priority;
+import com.hbm.enums.Status;
 import com.hbm.model.Ticket;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -25,6 +26,7 @@ public class SupportFlowApp {
             System.out.println("5. Update Ticket");
             System.out.println("6. Fetch Tickets by Customer");
             System.out.println("7. Fetch Tickets by Employee");
+            System.out.println("8. Fetch Tickets by Priority / Status");
             System.out.println("0. To Exit");
             System.out.println("------------------------------------");
             int input = sc.nextInt();
@@ -102,6 +104,11 @@ public class SupportFlowApp {
                     List<Ticket>  list = ticketController.getByCustomer(customerId);
                     if(list.isEmpty())
                         System.out.println("No tickets to show for this customer...");
+                    list.forEach(System.out :: println);
+                }
+                case 8 -> {
+                   // List<Ticket> list =  ticketController.filterByPriorityAndStatus(Priority.HIGH, Status.OPEN);
+                    List<Ticket> list =  ticketController.filterByPriorityAndStatus(Priority.LOW, null);
                     list.forEach(System.out :: println);
                 }
             }

@@ -21,7 +21,7 @@ public class Ticket {
     @Column(length = 1000)  //<-- this creates the field of length 1000 as max chars
     private String description;
 
-    @Enumerated
+    @Enumerated(EnumType.STRING)
     private Priority priority;
 
     @Enumerated(EnumType.STRING)

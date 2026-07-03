@@ -51,4 +51,8 @@ public class TicketService {
        // return ticketDao.getByCustomer(customerId);
         return ticketDao.getByCustomerV2(customerId);
     }
+
+    public List<Ticket> filterByPriorityAndStatus(Priority priority, Status status) {
+        return ticketDao.filterByPriorityAndStatus(priority, status);
+    }
 }
