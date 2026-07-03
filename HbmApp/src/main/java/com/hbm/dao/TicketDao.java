@@ -12,4 +12,6 @@ public interface TicketDao {
     List<Ticket> getAll();
 
     void deleteById(int id);
+
+    Ticket update(Ticket ticket);
 }

@@ -23,4 +23,8 @@ public class TicketController {
     public void deleteById(int id) {
         ticketService.deleteById(id);
     }
+
+    public Ticket update(Ticket ticket, String subject, String description, String priority) {
+        return ticketService.update(ticket, subject, description, priority);
+    }
 }

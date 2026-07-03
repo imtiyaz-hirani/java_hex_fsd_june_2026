@@ -7,6 +7,7 @@ import com.hbm.model.Ticket;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
@@ -72,6 +73,26 @@ public class SupportFlowApp {
                     catch(RuntimeException e){
                         System.out.println("Could not delete ticket: " + e.getMessage());
                     }
+                }
+                case 5 ->{
+                    System.out.println("Enter id of ticket to update ");
+                    int id = sc.nextInt();
+                    Ticket ticket = ticketController.getById(id);
+                    System.out.println("Current Ticket: ");
+                    System.out.println(ticket);
+                    System.out.println("Enter updated values");
+                    sc.nextLine();
+                    System.out.println("Enter subject");
+                    String subject = sc.nextLine();
+                    System.out.println("Enter description");
+                    String description = sc.nextLine();
+                    System.out.println("Enter Priority");
+                    System.out.println("Allowed priority values");
+                    Arrays.stream(Priority.values()).forEach(System.out :: println);
+                    String priority = sc.nextLine();
+                    ticket = ticketController.update(ticket, subject, description, priority);
+                    System.out.println("Ticket updated");
+                    System.out.println(ticket);
                 }
             }
         }

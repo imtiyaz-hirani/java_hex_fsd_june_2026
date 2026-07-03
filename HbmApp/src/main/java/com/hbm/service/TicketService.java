@@ -2,6 +2,7 @@ package com.hbm.service;
 
 import com.hbm.dao.TicketDao;
 import com.hbm.dao.impl.TicketDaoImpl;
+import com.hbm.enums.Priority;
 import com.hbm.enums.Status;
 import com.hbm.model.Ticket;
 
@@ -34,5 +35,15 @@ public class TicketService {
 
     public void deleteById(int id) {
         ticketDao.deleteById(id);
+    }
+
+    public Ticket update(Ticket ticket, String subject, String description, String priority) {
+        // ticket obj that needs to be updated already has an id attached to it.
+        // dont change this id. update the other fields that are allowed to be updated
+        ticket.setSubject(subject);
+        ticket.setDescription(description);
+        ticket.setPriority(Priority.valueOf(priority));
+        // Pass this updated ticket to Dao for insertion
+        return ticketDao.update(ticket);
     }
 }

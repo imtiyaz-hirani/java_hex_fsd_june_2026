@@ -98,6 +98,19 @@ public class TicketDaoImpl implements TicketDao {
         }
 
     }
+
+    @Override
+    public Ticket update(Ticket ticket) {
+        Transaction transaction = null;
+        try (Session session = sessionFactory.openSession()) {
+            transaction = session.beginTransaction();
+            session.merge(ticket);
+            // this ticket has an id attached which is already present in db, so this will merge with old ticket
+            // and override old values with new ones (subject, description, priority)
+            transaction.commit();
+        }
+        return ticket;
+    }
 }
 /*
 Native Query:
