@@ -9,7 +9,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 import java.time.Instant;
 
 @Entity //<-- tells DB to create a table with default name as 'ticket'
-@Table(name = "tickets") //<-- Now the table name would be 'tickets'
+@Table(name = "tickets") //<-- Now the table name would be 'tickets'  // t
 public class Ticket {
     @Id //<-- this makes id a Primary Key
     @GeneratedValue(strategy = GenerationType.IDENTITY) //<-- this auto generates the id
@@ -34,10 +34,11 @@ public class Ticket {
     @UpdateTimestamp
     private Instant updatedAt;
 
-    @ManyToOne
+
+    @ManyToOne /* (fetch = FetchType.LAZY) */ // Eager Loading : Since it has only one record to fetch, it will fetch it with Ticket record
     private Customer customer;
 
-    @ManyToOne
+    @ManyToOne // Note: if there were multiple records to fetch, hibernate would ignore it.
     private Employee employee;
 
     public int getId() {
@@ -104,6 +105,14 @@ public class Ticket {
         this.customer = customer;
     }
 
+    public Employee getEmployee() {
+        return employee;
+    }
+
+    public void setEmployee(Employee employee) {
+        this.employee = employee;
+    }
+
     @Override
     public String toString() {
         return "Ticket{" +
@@ -115,6 +124,7 @@ public class Ticket {
                 ", createdAt=" + createdAt +
                 ", updatedAt=" + updatedAt +
                 ", customer=" + customer +
+                ", employee=" + employee +
                 '}';
     }
 }

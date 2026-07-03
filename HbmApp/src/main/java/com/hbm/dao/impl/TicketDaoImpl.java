@@ -111,10 +111,45 @@ public class TicketDaoImpl implements TicketDao {
         }
         return ticket;
     }
+
+    @Override
+    public List<Ticket> getByCustomer(int customerId) {
+        Transaction transaction = null;
+        try (Session session = sessionFactory.openSession()) {
+            transaction = session.beginTransaction();
+            Query<Ticket> query =  session.createQuery("from Ticket t where t.customer.id=:id" , Ticket.class);
+            query.setParameter("id" , customerId);
+            List<Ticket> list = query.list();
+            transaction.commit();
+            return list;
+        }
+
+    }
+
+    @Override
+    public List<Ticket> getByCustomerV2(int customerId) {
+        Transaction transaction = null;
+        try (Session session = sessionFactory.openSession()) {
+            transaction = session.beginTransaction();
+            Query<Ticket> query =  session.createNativeQuery("select * from tickets t where t.customer_id=:id"
+                    , Ticket.class);
+            query.setParameter("id", customerId);
+            List<Ticket> list = query.list();
+            transaction.commit();
+            return list;
+        }
+    }
 }
 /*
 Native Query:
 select * from tickets
 HQL: this queries model classes
 from  Ticket
+
+Native Query:
+select * from tickets t where t.customer_id=?
+HQL :
+from Ticket t where t.customer.id=?
+JPQL:
+select t from Ticket t where t.customer.id=?
 * */

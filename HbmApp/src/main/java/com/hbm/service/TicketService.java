@@ -46,4 +46,9 @@ public class TicketService {
         // Pass this updated ticket to Dao for insertion
         return ticketDao.update(ticket);
     }
+
+    public List<Ticket> getByCustomer(int customerId) {
+       // return ticketDao.getByCustomer(customerId);
+        return ticketDao.getByCustomerV2(customerId);
+    }
 }

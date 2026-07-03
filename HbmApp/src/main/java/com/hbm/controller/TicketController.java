@@ -27,4 +27,8 @@ public class TicketController {
     public Ticket update(Ticket ticket, String subject, String description, String priority) {
         return ticketService.update(ticket, subject, description, priority);
     }
+
+    public List<Ticket> getByCustomer(int customerId) {
+        return ticketService.getByCustomer(customerId);
+    }
 }
