@@ -1,11 +1,15 @@
 package com.hbm.config;
 
+import com.hbm.model.Customer;
+import com.hbm.model.Employee;
 import com.hbm.model.Ticket;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.AvailableSettings;
 import org.hibernate.cfg.Configuration;
+
+import java.io.File;
 
 public class HbmConfig {
 
@@ -25,6 +29,8 @@ public class HbmConfig {
 
                 // Register the model classes
                 config.addAnnotatedClass(Ticket.class);
+                config.addAnnotatedClass(Customer.class);
+                config.addAnnotatedClass(Employee.class);
 
                 StandardServiceRegistry registry = new StandardServiceRegistryBuilder()
                         .applySettings(config.getProperties())
