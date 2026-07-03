@@ -5,6 +5,8 @@ import com.hbm.dao.impl.TicketDaoImpl;
 import com.hbm.enums.Status;
 import com.hbm.model.Ticket;
 
+import java.util.List;
+
 public class TicketService {
     TicketDao ticketDao = new TicketDaoImpl(); // Polymorphic Object
 
@@ -24,5 +26,9 @@ public class TicketService {
 
     public Ticket getById(int id) {
         return ticketDao.getById(id);
+    }
+
+    public List<Ticket> getAll() {
+        return ticketDao.getAll();
     }
 }

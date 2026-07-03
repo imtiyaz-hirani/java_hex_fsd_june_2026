@@ -6,6 +6,9 @@ import com.hbm.model.Ticket;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
+import org.hibernate.query.Query;
+
+import java.util.List;
 
 public class TicketDaoImpl implements TicketDao {
 
@@ -57,4 +60,29 @@ public class TicketDaoImpl implements TicketDao {
         }
 
     }
+
+    @Override
+    public List<Ticket> getAll() {
+        Transaction transaction = null;
+        try(Session session = sessionFactory.openSession()) {
+            transaction = session.beginTransaction();
+             // Actual DB call
+            Query<Ticket> query = session.createQuery("from Ticket", Ticket.class);
+            List<Ticket> list = query.list();
+            transaction.commit();
+            return list;
+        }
+        catch(Exception e){
+            if(transaction != null)
+                transaction.rollback();
+            throw new RuntimeException(e.getMessage());
+        }
+
+    }
 }
+/*
+Native Query:
+select * from tickets
+HQL: this queries model classes
+from  Ticket
+* */
