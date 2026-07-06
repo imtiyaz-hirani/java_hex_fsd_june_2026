@@ -7,7 +7,7 @@ import java.time.Instant;
 
 @Entity
 @Table(name = "plan_customer")
-public class PlanCustomer {
+public class PlanCustomer { //pc
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -16,11 +16,11 @@ public class PlanCustomer {
     // Customer  1:M     CustomerPlan    M:1      Plan
     @ManyToOne
     @JoinColumn(name = "customer_id")
-    private Customer customer; // creates FK customer_id
+    private Customer customer; // creates FK customer_id   -- pc.customer
 
     @ManyToOne
     @JoinColumn(name = "plan_id")
-    private Plan plan;
+    private Plan plan; //pc.plan
 
     private int customerPerValue;
 

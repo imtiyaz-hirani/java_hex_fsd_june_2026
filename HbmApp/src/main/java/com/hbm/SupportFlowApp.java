@@ -1,9 +1,12 @@
 package com.hbm;
 
 import com.hbm.config.HbmConfig;
+import com.hbm.controller.CustomerController;
 import com.hbm.controller.TicketController;
 import com.hbm.enums.Priority;
 import com.hbm.enums.Status;
+import com.hbm.model.Customer;
+import com.hbm.model.PlanCustomer;
 import com.hbm.model.Ticket;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -17,6 +20,7 @@ public class SupportFlowApp {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         TicketController ticketController = new TicketController();
+        CustomerController customerController = new CustomerController();
         while(true){
             System.out.println("--------------Ticket Ops------------");
             System.out.println("1. Insert Ticket");
@@ -27,6 +31,7 @@ public class SupportFlowApp {
             System.out.println("6. Fetch Tickets by Customer");
             System.out.println("7. Fetch Tickets by Employee");
             System.out.println("8. Fetch Tickets by Priority / Status");
+            System.out.println("9. Fetch Customer details with Plan");
             System.out.println("0. To Exit");
             System.out.println("------------------------------------");
             int input = sc.nextInt();
@@ -110,6 +115,17 @@ public class SupportFlowApp {
                    // List<Ticket> list =  ticketController.filterByPriorityAndStatus(Priority.HIGH, Status.OPEN);
                     List<Ticket> list =  ticketController.filterByPriorityAndStatus(Priority.LOW, null);
                     list.forEach(System.out :: println);
+                }
+                case 9 ->{
+                    System.out.println("Enter customer id ");
+                    int customerId = sc.nextInt();
+                    try {
+                        PlanCustomer customerWithPlan = customerController.getCustomerWithPlanUsingJoin(customerId);
+                        System.out.println(customerWithPlan);
+                    }catch(RuntimeException e){
+                        System.out.println(e.getMessage());
+                    }
+
                 }
             }
         }
