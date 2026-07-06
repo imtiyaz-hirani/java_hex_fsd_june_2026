@@ -3,6 +3,7 @@ package com.hbm;
 import com.hbm.config.HbmConfig;
 import com.hbm.controller.CustomerController;
 import com.hbm.controller.TicketController;
+import com.hbm.dto.CustomerPlanDto;
 import com.hbm.enums.Priority;
 import com.hbm.enums.Status;
 import com.hbm.model.Customer;
@@ -120,8 +121,8 @@ public class SupportFlowApp {
                     System.out.println("Enter customer id ");
                     int customerId = sc.nextInt();
                     try {
-                        PlanCustomer customerWithPlan = customerController.getCustomerWithPlanUsingJoin(customerId);
-                        System.out.println(customerWithPlan);
+                        CustomerPlanDto dto = customerController.getCustomerWithPlanUsingJoin(customerId);
+                        System.out.println(dto);
                     }catch(RuntimeException e){
                         System.out.println(e.getMessage());
                     }
