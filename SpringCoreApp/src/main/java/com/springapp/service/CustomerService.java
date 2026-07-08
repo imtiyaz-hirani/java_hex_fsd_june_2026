@@ -2,6 +2,7 @@ package com.springapp.service;
 
 import com.springapp.utility.CustomerUtility;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -17,12 +18,15 @@ public class CustomerService {
 //        this.customerUtility = customerUtility;
 //    }
     private final CustomerUtility customerUtility;
+    private final JdbcTemplate jdbcTemplate;
 
-    public CustomerService(CustomerUtility customerUtility) {
+    public CustomerService(CustomerUtility customerUtility, JdbcTemplate jdbcTemplate) {
         this.customerUtility = customerUtility;
+        this.jdbcTemplate = jdbcTemplate;
     }
 
     public String sayHello(){
+        System.out.println("JDBC created at loc: " +jdbcTemplate);
         return customerUtility.helloUtil() + "Spring"; // Howdy Spring
     }
 

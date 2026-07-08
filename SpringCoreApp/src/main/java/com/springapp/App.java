@@ -23,4 +23,7 @@ Spring Context
 CustomerController
 CustomerService
 CustomerUtility
+
+JdbcTemplate
+DataSource
 * */
