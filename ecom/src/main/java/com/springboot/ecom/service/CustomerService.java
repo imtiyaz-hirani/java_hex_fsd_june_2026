@@ -31,7 +31,7 @@ public class CustomerService {
         // Work with Pagination
         Pageable pageable =  PageRequest.of(page,size);
         // Fetch all customer info
-        List<Customer> list = customerRepository.findAll(pageable).getContent();
+        List<Customer> list = customerRepository.fetchAll(pageable).getContent();
 
         // Convert List<Customer> to List<CustomerRespDto>
         // Trainer Tip: Convert Single Customer to Single CustomerRespDto
@@ -43,10 +43,32 @@ public class CustomerService {
 
     public CustomerRespDto getById(long id) {
         // If id is found, we return Dto
-       Customer customer = customerRepository.findById(id)
+       Customer customer = customerRepository.fetchById(id)
                .orElseThrow(()-> new ResourceNotFoundException("Customer id Invalid"));
 
        // Map Customer entity to dto
         return CustomerMapper.mapEntityToDto(customer);
+    }
+
+    public void delete(long id) {
+        // Validate this id, to check if it exists
+        Customer customer = customerRepository.fetchById(id)
+                .orElseThrow(()-> new ResourceNotFoundException("Customer id Invalid"));
+
+        // In soft delete, we flip the isActive boolean from true to false
+        customer.setActive(false);
+
+        // Now save it in Db
+        customerRepository.save(customer); //this becomes an edit op since id of this customer is present
+
+    }
+
+    public void deleteHard(long id) {
+        // Validate this id, to check if it exists
+        Customer customer = customerRepository.findById(id)
+                .orElseThrow(()-> new ResourceNotFoundException("Customer id Invalid"));
+
+        // Now delete it from Db
+        customerRepository.deleteById(id);
     }
 }

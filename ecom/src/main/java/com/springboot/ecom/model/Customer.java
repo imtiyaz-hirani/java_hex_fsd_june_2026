@@ -18,4 +18,7 @@ public class Customer {
     private String name;
 
     private String city;
+
+    private boolean isActive = true;
+
 }

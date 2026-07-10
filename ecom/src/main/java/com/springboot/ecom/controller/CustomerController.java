@@ -38,9 +38,9 @@ public class CustomerController {
         return customerService.getById(id);
     }
 
-    @DeleteMapping("/delete")
-    public void delete(){
-
+    @DeleteMapping("/delete/{id}")
+    public void delete(@PathVariable long id){
+        customerService.delete(id);
     }
 
     @PutMapping("/update")
