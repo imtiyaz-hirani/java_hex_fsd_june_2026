@@ -43,8 +43,9 @@ public class CustomerController {
         customerService.delete(id);
     }
 
-    @PutMapping("/update")
-    public void update(){
-
+    @PutMapping("/update/{id}")
+    public void update(@PathVariable long id,
+                       @Valid @RequestBody CustomerDto customerDto){
+        customerService.update(id, customerDto);
     }
 }

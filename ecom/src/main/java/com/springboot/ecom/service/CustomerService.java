@@ -71,4 +71,17 @@ public class CustomerService {
         // Now delete it from Db
         customerRepository.deleteById(id);
     }
+
+    public void update(long id, @Valid CustomerDto customerDto) {
+        // Validate this id, to check if it exists
+        Customer customerDB = customerRepository.fetchById(id)  // This customerDb comes form the database having id.
+                .orElseThrow(()-> new ResourceNotFoundException("Customer id Invalid"));
+
+        // Replace the fields of CustomerDB [old] with customerDto [New]
+        customerDB.setName(customerDto.name());
+        customerDB.setCity(customerDto.city());
+
+        // Re-save it in DB
+        customerRepository.save(customerDB);
+    }
 }
