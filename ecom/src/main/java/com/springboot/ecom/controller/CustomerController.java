@@ -33,9 +33,9 @@ public class CustomerController {
         return customerService.getAll(page,size);
     }
 
-    @GetMapping("/get-one")
-    public void getById(){
-
+    @GetMapping("/get-one/{id}")
+    public CustomerRespDto getById(@PathVariable long id){
+        return customerService.getById(id);
     }
 
     @DeleteMapping("/delete")

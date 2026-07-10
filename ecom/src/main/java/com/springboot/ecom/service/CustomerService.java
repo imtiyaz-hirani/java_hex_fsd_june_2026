@@ -2,6 +2,7 @@ package com.springboot.ecom.service;
 
 import com.springboot.ecom.dto.request.CustomerDto;
 import com.springboot.ecom.dto.response.CustomerRespDto;
+import com.springboot.ecom.exception.ResourceNotFoundException;
 import com.springboot.ecom.mapper.CustomerMapper;
 import com.springboot.ecom.model.Customer;
 import com.springboot.ecom.repository.CustomerRepository;
@@ -38,5 +39,14 @@ public class CustomerService {
                 .stream()
                 .map(CustomerMapper::mapEntityToDto)
                 .toList();
+    }
+
+    public CustomerRespDto getById(long id) {
+        // If id is found, we return Dto
+       Customer customer = customerRepository.findById(id)
+               .orElseThrow(()-> new ResourceNotFoundException("Customer id Invalid"));
+
+       // Map Customer entity to dto
+        return CustomerMapper.mapEntityToDto(customer);
     }
 }
