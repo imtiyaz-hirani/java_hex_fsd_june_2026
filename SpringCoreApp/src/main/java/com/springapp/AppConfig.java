@@ -15,7 +15,7 @@ import javax.sql.DataSource;
 
 @Configuration
 @ComponentScan(basePackages = "com.springapp")
-@PropertySource("application.properties")
+@PropertySource("classpath: application.properties")
 public class AppConfig {
 
     @Value("${db.url}")

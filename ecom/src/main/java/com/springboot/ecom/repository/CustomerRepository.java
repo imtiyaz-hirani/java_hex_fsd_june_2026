@@ -4,7 +4,7 @@ import com.springboot.ecom.model.Customer;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface CustomerRepository extends JpaRepository<Customer,Long> {
-    // now this repository all has all JpaRepository methods
+    // now this repository also has all JpaRepository methods
     /*
     - save
     - findAll

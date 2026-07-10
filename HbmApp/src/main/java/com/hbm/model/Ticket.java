@@ -133,3 +133,18 @@ Since we have Hibernate & JPA (Jakarta Persistence API)
 
 JPA has annotations that help create tables in the DB
 * */
+
+
+/*
+* Product
+*   Vendor vendor (vendor_id)
+*select v.name, count(*) as 'Number_of_Products'
+    -> from product p JOIN vendor v ON p.vendor_id = p.id
+    -> group by v.name;
+*
+* Ticket
+*    Customer customer (customer_id)
+* select c.name, count(*) as 'num_of_tickets'
+    -> from customers c JOIN tickets t ON t.customer_id = c.id
+    -> group by c.name;
+* */

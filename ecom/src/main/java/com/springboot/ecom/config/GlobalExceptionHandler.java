@@ -15,19 +15,15 @@ import java.util.Map;
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<Map<String, String>> handleMethodArgumentNotValidException(
+    public ResponseEntity<Map<String,String>> handleMethodArgumentNotValidException(
             MethodArgumentNotValidException e
     ){
-        System.out.println("I am spring, and I m in handler method");
-        BindingResult result =  e.getBindingResult();
-        List<FieldError> list =  result.getFieldErrors();
-        Map<String, String> map = new HashMap<>();
-        list.forEach(err->{
-            map.put(err.getField(), err.getDefaultMessage());
-        });
-        return ResponseEntity
-                .badRequest()
-                .body(map);
-
+         BindingResult result =  e.getBindingResult();
+         List<FieldError> list = result.getFieldErrors();
+         Map<String,String> map = new HashMap<>();
+         list.forEach(err-> map.put(err.getField(), err.getDefaultMessage()));
+         return ResponseEntity
+                 .badRequest()
+                 .body(map);
     }
 }

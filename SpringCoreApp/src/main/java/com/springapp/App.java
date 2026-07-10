@@ -1,5 +1,6 @@
 package com.springapp;
 
+import com.springapp.dto.StatDto;
 import com.springapp.model.Customer;
 import com.springapp.model.Ticket;
 import com.springapp.service.CustomerService;
@@ -7,6 +8,7 @@ import com.springapp.service.TicketService;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 import java.util.List;
+import java.util.Map;
 
 public class App {
     public static void main(String[] args) {
@@ -37,17 +39,28 @@ public class App {
         TicketService ticketService = context.getBean(TicketService.class);
         List<Ticket> list  = ticketService.getAllWithCustomerAndEmployee();
         list.forEach(System.out :: println);
+
+        System.out.println("-------Number of Tickets for each Customer------");
+        List<StatDto>  dto=  ticketService.getTicketStat();
+        dto.forEach(entry-> {
+            System.out.println(entry.customerName() + "   " + entry.numberOfProducts());
+        }) ;
+
+        System.out.println("----------Update ");
         context.close();
+
+
     }
 }
 /*
 If u want all these classes to get registered, you have to tell spring to scan them right at the beginning of the app
-Spring Context
+Spring Context : IOC
 --------------
 CustomerController
 CustomerService
 CustomerUtility
 
+@Bean
 JdbcTemplate
 DataSource
 * */

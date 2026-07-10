@@ -1,11 +1,11 @@
 package com.springboot.ecom.controller;
 
 import com.springboot.ecom.dto.request.CustomerDto;
+import com.springboot.ecom.dto.response.CustomerRespDto;
 import com.springboot.ecom.model.Customer;
 import com.springboot.ecom.service.CustomerService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -23,13 +23,14 @@ public class CustomerController {
      }
      */
     @PostMapping("/add") //api/customer/add
-    public Customer add(@Valid @RequestBody CustomerDto dto){
-        return customerService.add(dto);
+    public Customer add(@Valid @RequestBody CustomerDto customerDto){
+        return customerService.add(customerDto);
     }
 
     @GetMapping("/get-all")
-    public void getAll(){
-
+    public List<CustomerRespDto> getAll(@RequestParam Integer page,
+                                        @RequestParam Integer size){
+        return customerService.getAll(page,size);
     }
 
     @GetMapping("/get-one")
