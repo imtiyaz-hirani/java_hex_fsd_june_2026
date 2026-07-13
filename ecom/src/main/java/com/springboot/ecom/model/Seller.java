@@ -2,6 +2,9 @@ package com.springboot.ecom.model;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
+
+import java.time.Instant;
 
 @Entity
 @Getter
@@ -19,6 +22,9 @@ public class Seller {
     @OneToOne
     @JoinColumn(name = "user_id")
     private User user;
+
+    @CreationTimestamp
+    private Instant onboardedOn;
 
     @ManyToOne
     @JoinColumn(name = "executive_id", nullable = false)

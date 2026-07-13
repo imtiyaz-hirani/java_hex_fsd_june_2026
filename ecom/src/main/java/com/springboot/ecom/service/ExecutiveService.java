@@ -1,7 +1,7 @@
 package com.springboot.ecom.service;
 
 import com.springboot.ecom.dto.request.ExecutiveReqDto;
-import com.springboot.ecom.enums.JobTitle;
+
 import com.springboot.ecom.enums.Role;
 import com.springboot.ecom.mapper.ExecutiveMapper;
 import com.springboot.ecom.mapper.UserMapper;
@@ -21,7 +21,9 @@ public class ExecutiveService {
 
     public void insert(ExecutiveReqDto executiveReqDto) {
         // Step 1: Fetch User details from dto and save it in DB
-            User user = UserMapper.convertDtoToEntity(executiveReqDto.username(), executiveReqDto.password());
+            User user = UserMapper.convertDtoToEntity(executiveReqDto.username(),
+                                                      executiveReqDto.password(),
+                                                       Role.EXECUTIVE);
             // After save, we get the user back with id attached to it
             user = userRepository.save(user); // this user has an id
 

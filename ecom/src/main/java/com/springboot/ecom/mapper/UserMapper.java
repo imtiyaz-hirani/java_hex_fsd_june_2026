@@ -6,8 +6,8 @@ import com.springboot.ecom.model.User;
 
 public class UserMapper {
 
-    public static User convertDtoToEntity(String username, String password){
-         Role role = Role.EXECUTIVE;
+    public static User convertDtoToEntity(String username, String password, Role role){
+
         User user = new User(); // this user has no id
         user.setUsername(username);
         user.setPassword(password);
