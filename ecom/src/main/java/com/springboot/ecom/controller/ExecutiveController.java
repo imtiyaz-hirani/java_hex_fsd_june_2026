@@ -2,6 +2,7 @@ package com.springboot.ecom.controller;
 
 import com.springboot.ecom.dto.request.ExecutiveReqDto;
 import com.springboot.ecom.service.ExecutiveService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,7 +23,7 @@ public class ExecutiveController {
     }
     * */
     @PostMapping("/add")
-    public void insert(@RequestBody ExecutiveReqDto executiveReqDto){
+    public void insert(@Valid @RequestBody ExecutiveReqDto executiveReqDto){
         executiveService.insert(executiveReqDto);
     }
 }
