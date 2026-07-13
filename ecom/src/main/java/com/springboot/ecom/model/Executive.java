@@ -1,5 +1,6 @@
 package com.springboot.ecom.model;
 
+import com.springboot.ecom.enums.JobTitle;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -9,20 +10,16 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class Customer {
+public class Executive {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private long id;
 
-    @Column( nullable = false)
     private String name;
 
-    private String city;
-
-    private boolean isActive = true;
-
+    @Enumerated(EnumType.STRING)
+    private JobTitle jobTitle;
     @OneToOne
     @JoinColumn(name = "user_id")
     private User user;
-
 }
