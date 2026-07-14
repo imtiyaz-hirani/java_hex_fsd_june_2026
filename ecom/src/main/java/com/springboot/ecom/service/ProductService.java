@@ -2,6 +2,7 @@ package com.springboot.ecom.service;
 
 import com.springboot.ecom.dto.request.ProductReqDto;
 import com.springboot.ecom.dto.response.ProductResDto;
+import com.springboot.ecom.dto.response.ProductResStatDto;
 import com.springboot.ecom.exception.ResourceNotFoundException;
 import com.springboot.ecom.mapper.ProductMapper;
 import com.springboot.ecom.model.Category;
@@ -60,5 +61,9 @@ public class ProductService {
                 .map(ProductMapper :: convertEntityToDto)
                 .toList();
 
+    }
+
+    public List<ProductResStatDto> getProductForEachSeller() {
+        return productRepository.getProductForEachSeller();
     }
 }
