@@ -14,6 +14,8 @@ import com.springboot.ecom.repository.UserRepository;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -22,7 +24,8 @@ public class SellerService {
     private final ExecutiveRepository executiveRepository;
     private final UserRepository userRepository;
 
-    public void insert(long executiveId, @Valid SellerReqDto sellerReqDto) {
+    @Transactional
+public void insert(long executiveId, @Valid SellerReqDto sellerReqDto) {
         // Step 1: Fetch Executive using given executiveId
         Executive executive = executiveRepository.findById(executiveId)
                 .orElseThrow(()-> new ResourceNotFoundException("Executive id invalid.."));
