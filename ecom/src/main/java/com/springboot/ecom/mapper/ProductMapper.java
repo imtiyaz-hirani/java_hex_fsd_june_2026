@@ -1,6 +1,7 @@
 package com.springboot.ecom.mapper;
 
 import com.springboot.ecom.dto.request.ProductReqDto;
+import com.springboot.ecom.dto.response.ProductResDto;
 import com.springboot.ecom.model.Product;
 import org.springframework.stereotype.Component;
 
@@ -13,5 +14,14 @@ public class ProductMapper {
         product.setDescription(productReqDto.description());
         product.setPrice(productReqDto.price());
         return product;
+    }
+
+    public static ProductResDto convertEntityToDto(Product product){
+        return new ProductResDto(
+                product.getTitle(),
+                product.getId(),
+                product.getPrice(),
+                product.getSeller().getName()
+        );
     }
 }
