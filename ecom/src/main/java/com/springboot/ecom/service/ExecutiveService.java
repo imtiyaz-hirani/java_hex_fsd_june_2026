@@ -2,6 +2,8 @@ package com.springboot.ecom.service;
 
 import com.springboot.ecom.dto.request.ExecutiveReqDto;
 
+import com.springboot.ecom.dto.response.ExecutiveResDto;
+import com.springboot.ecom.enums.JobTitle;
 import com.springboot.ecom.enums.Role;
 import com.springboot.ecom.mapper.ExecutiveMapper;
 import com.springboot.ecom.mapper.UserMapper;
@@ -11,6 +13,8 @@ import com.springboot.ecom.repository.ExecutiveRepository;
 import com.springboot.ecom.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -35,5 +39,14 @@ public class ExecutiveService {
 
         // Step 4: Save executive in Db
             executiveRepository.save(executive);
+    }
+
+    public List<ExecutiveResDto> getByJobTitle(JobTitle jobTitle) {
+        List<Executive> list = executiveRepository.findByJobTitle(jobTitle);
+
+        return list
+                .stream()
+                .map(ExecutiveMapper :: convertEntityToDto)
+                .toList();
     }
 }

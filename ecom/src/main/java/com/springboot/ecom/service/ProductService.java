@@ -52,7 +52,7 @@ public class ProductService {
         // Step 0: Using page and size create the reference of Pageable
          Pageable pageable= PageRequest.of(page,size);
         // Step 1: Fetch List of Products by category ID
-        List<Product> list = productRepository.getByCategoryIdV1(categoryId,pageable);
+        List<Product> list = productRepository.findByCategoryId(categoryId,pageable);
 
         // Step 2: Use Mapper to convert List<Product> to List<ProductResDto> [Entity --> DTO]
         return  list
