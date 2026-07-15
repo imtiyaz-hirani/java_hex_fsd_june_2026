@@ -1,6 +1,7 @@
 package com.springboot.ecom.controller;
 
 import com.springboot.ecom.dto.request.ProductReqDto;
+import com.springboot.ecom.dto.response.OrderDto;
 import com.springboot.ecom.dto.response.ProductResDto;
 import com.springboot.ecom.dto.response.ProductResStatDto;
 import com.springboot.ecom.service.ProductService;
@@ -42,4 +43,10 @@ public class ProductController {
         return productService.getProductForEachSeller();
     }
 
+    @GetMapping("/purchase/by-customer")
+    public List<OrderDto> getProductsPurchasedByCustomerUsername(@RequestParam String customerUsername,
+                                                                 @RequestParam(required = false, defaultValue = "0") int page,
+                                                                 @RequestParam(required = false, defaultValue = "5") int size){
+        return productService.getProductsPurchasedByCustomerUsername(customerUsername, page,size);
+    }
 }

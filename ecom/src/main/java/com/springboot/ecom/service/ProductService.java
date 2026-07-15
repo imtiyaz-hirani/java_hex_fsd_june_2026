@@ -1,9 +1,11 @@
 package com.springboot.ecom.service;
 
 import com.springboot.ecom.dto.request.ProductReqDto;
+import com.springboot.ecom.dto.response.OrderDto;
 import com.springboot.ecom.dto.response.ProductResDto;
 import com.springboot.ecom.dto.response.ProductResStatDto;
 import com.springboot.ecom.exception.ResourceNotFoundException;
+import com.springboot.ecom.mapper.OrderMapper;
 import com.springboot.ecom.mapper.ProductMapper;
 import com.springboot.ecom.model.Category;
 import com.springboot.ecom.model.Product;
@@ -65,5 +67,20 @@ public class ProductService {
 
     public List<ProductResStatDto> getProductForEachSeller() {
         return productRepository.getProductForEachSeller();
+    }
+
+    public List<OrderDto> getProductsPurchasedByCustomerUsername(String customerUsername, int page, int size) {
+        // Step 0: Using page and size create the reference of Pageable
+        Pageable pageable= PageRequest.of(page,size);
+
+        List<OrderDto> list = productRepository.getProductsPurchasedByCustomerUsername(customerUsername,pageable);
+
+        return list
+                .stream()
+                .map(OrderMapper :: processOrder)
+                .toList();
+
+
+
     }
 }

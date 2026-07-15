@@ -9,7 +9,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class Review {
+public class Review { //r
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
@@ -19,7 +19,7 @@ public class Review {
     @ManyToOne
     @JoinColumn(name = "product_id", nullable = false)
     // Review cannot be posted without the product
-    private Product product;
+    private Product product; //r.product
 
     @ManyToOne
     @JoinColumn(name = "customer_id", nullable = false)

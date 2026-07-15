@@ -1,5 +1,6 @@
 package com.springboot.ecom.repository;
 
+import com.springboot.ecom.dto.response.OrderDto;
 import com.springboot.ecom.dto.response.ProductResStatDto;
 import com.springboot.ecom.model.Product;
 import org.springframework.data.domain.Pageable;
@@ -25,6 +26,31 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
              group by s.name
              """)
     List<ProductResStatDto> getProductForEachSeller();
+
+     @Query("""
+             select p.id as productId,
+             p.title as productTitle,
+             p.price as actualPrice,
+             cp.discount as discount,
+             cp.qty as quantity,
+             cp.purchaseDate as dateOfPurchase,
+             s.name as sellerName,
+             p.price - (p.price * (cp.discount / 100)) as paidPrice,
+             false,
+             r.rating as rating,
+             r.reviewText as reviewText,
+             false,
+             cp.deliveredDate as deliveredDate
+             from CustomerProduct cp
+             JOIN cp.customer c
+             JOIN cp.product p
+             JOIN c.user u
+             JOIN p.seller s
+             JOIN Review r ON r.product.id = p.id
+             where u.username = ?1
+             order by cp.purchaseDate DESC
+             """)
+    List<OrderDto> getProductsPurchasedByCustomerUsername(String customerUsername, Pageable pageable);
 }
 /*
 findByCategoryId:

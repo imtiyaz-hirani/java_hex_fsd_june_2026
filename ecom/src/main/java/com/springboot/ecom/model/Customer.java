@@ -9,7 +9,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class Customer {
+public class Customer { //c
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -23,7 +23,7 @@ public class Customer {
 
     @OneToOne
     @JoinColumn(name = "user_id")
-    private User user;
+    private User user; //join c.user u
 
 
 

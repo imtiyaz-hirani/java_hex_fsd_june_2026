@@ -21,7 +21,7 @@ public class Product { //p
 
     @ManyToOne
     @JoinColumn(name = "seller_id" , nullable = false)
-    private Seller seller;
+    private Seller seller; //join p.seller s
 
     @ManyToOne
     @JoinColumn(name = "category_id" , nullable = false)
