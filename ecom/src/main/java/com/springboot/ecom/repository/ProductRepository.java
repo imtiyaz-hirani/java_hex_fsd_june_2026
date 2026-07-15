@@ -51,6 +51,13 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
              order by cp.purchaseDate DESC
              """)
     List<OrderDto> getProductsPurchasedByCustomerUsername(String customerUsername, Pageable pageable);
+
+     @Query("""
+             select p
+             from Product p join p.seller s
+             where s.id = ?1
+             """)
+    List<Product> getProductBySellerId(long id);
 }
 /*
 findByCategoryId:

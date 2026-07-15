@@ -26,4 +26,9 @@ public class SellerController {
                        @Valid  @RequestBody SellerReqDto sellerReqDto){
         sellerService.insert(executiveId,sellerReqDto);
     }
+
+    @DeleteMapping("/de-activate")
+    public void deactivateSeller(@RequestParam String sellerUsername){
+        sellerService.deactivateSeller(sellerUsername);
+    }
 }
