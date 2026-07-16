@@ -2,14 +2,19 @@ package com.springboot.ecom.service;
 
 import com.springboot.ecom.dto.request.CustomerDto;
 import com.springboot.ecom.dto.response.CustomerRespDto;
+import com.springboot.ecom.enums.Role;
 import com.springboot.ecom.exception.ResourceNotFoundException;
 import com.springboot.ecom.mapper.CustomerMapper;
+import com.springboot.ecom.mapper.UserMapper;
 import com.springboot.ecom.model.Customer;
+import com.springboot.ecom.model.User;
 import com.springboot.ecom.repository.CustomerRepository;
+import com.springboot.ecom.repository.UserRepository;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -19,10 +24,24 @@ import java.util.List;
 public class CustomerService {
     private final CustomerMapper customerMapper;
     private final CustomerRepository customerRepository;
+    private final PasswordEncoder passwordEncoder;
+    private final UserRepository userRepository;
 
     public Customer add(CustomerDto customerDto) {
+        // Fetch User entity from dto
+        User user = UserMapper.convertDtoToEntity(customerDto.username(), customerDto.password(), Role.CUSTOMER);
+        // encode the password
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+
+        // save user in db
+        user = userRepository.save(user);
+
         // Convert dto to Entity
         Customer customer = customerMapper.mapDtoToEntity(customerDto);
+
+        // Attach user to customer
+        customer.setUser(user);
+
         // Give this dto to customer repository and save it in Db
         return customerRepository.save(customer);
     }

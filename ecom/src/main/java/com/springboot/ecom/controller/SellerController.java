@@ -23,10 +23,11 @@ public class SellerController {
         password: ""
     }
     * */
-    @PostMapping("/add/{executiveId}")
-    public void insert(@PathVariable long executiveId,
+    @PostMapping("/add")
+    public void insert(Principal principal,
                        @Valid  @RequestBody SellerReqDto sellerReqDto){
-        sellerService.insert(executiveId,sellerReqDto);
+        String executiveUsername = principal.getName();
+        sellerService.insert(executiveUsername,sellerReqDto);
     }
 
     @DeleteMapping("/de-activate")

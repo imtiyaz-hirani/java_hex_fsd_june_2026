@@ -12,6 +12,7 @@ import com.springboot.ecom.model.User;
 import com.springboot.ecom.repository.ExecutiveRepository;
 import com.springboot.ecom.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -22,12 +23,16 @@ public class ExecutiveService {
 
     private final UserRepository userRepository;
     private final ExecutiveRepository executiveRepository;
+    private final PasswordEncoder passwordEncoder;
 
     public void insert(ExecutiveReqDto executiveReqDto) {
         // Step 1: Fetch User details from dto and save it in DB
             User user = UserMapper.convertDtoToEntity(executiveReqDto.username(),
                                                       executiveReqDto.password(),
                                                        Role.EXECUTIVE);
+            // Encode the password before saving
+            user.setPassword(passwordEncoder.encode(user.getPassword()));
+
             // After save, we get the user back with id attached to it
             user = userRepository.save(user); // this user has an id
 

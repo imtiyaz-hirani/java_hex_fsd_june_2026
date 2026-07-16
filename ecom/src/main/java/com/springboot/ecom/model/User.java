@@ -3,6 +3,12 @@ package com.springboot.ecom.model;
 import com.springboot.ecom.enums.Role;
 import jakarta.persistence.*;
 import lombok.*;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
+import java.util.Collection;
+import java.util.List;
 
 @Entity
 @Getter
@@ -11,7 +17,7 @@ import lombok.*;
 @AllArgsConstructor
 @ToString
 @Table(name = "users")
-public class User {
+public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
@@ -25,4 +31,10 @@ public class User {
     private Role role;
 
     private boolean isActivated = true;
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        SimpleGrantedAuthority sga = new SimpleGrantedAuthority(role.toString());
+        return List.of(sga);
+    }
 }

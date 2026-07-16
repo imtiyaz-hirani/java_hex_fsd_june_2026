@@ -15,6 +15,7 @@ import com.springboot.ecom.repository.SellerRepository;
 import com.springboot.ecom.repository.UserRepository;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,18 +29,21 @@ public class SellerService {
     private final ExecutiveRepository executiveRepository;
     private final UserRepository userRepository;
     private final ProductRepository productRepository;
+    private final PasswordEncoder passwordEncoder;
 
     @Transactional
-public void insert(long executiveId, @Valid SellerReqDto sellerReqDto) {
-        // Step 1: Fetch Executive using given executiveId
-        Executive executive = executiveRepository.findById(executiveId)
-                .orElseThrow(()-> new ResourceNotFoundException("Executive id invalid.."));
+public void insert(String executiveUsername, @Valid SellerReqDto sellerReqDto) {
+        // Step 1: Fetch Executive using given username
+        Executive executive = executiveRepository.findByUserUsername(executiveUsername);
 
         // Step 2: Fetch User details from dto and save it in DB
         User user =  UserMapper.convertDtoToEntity(     // this user is without id
                                             sellerReqDto.username(),
                                             sellerReqDto.password(),
                                             Role.SELLER);
+        // encode password before saving in db
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+
         user = userRepository.save(user); // this user reference has an id attached.
 
         // Step 3: Fetch seller from dto

@@ -3,5 +3,6 @@ package com.springboot.ecom.enums;
 public enum Role {
     CUSTOMER,
     SELLER,
-    EXECUTIVE
+    EXECUTIVE,
+    ADMIN
 }

@@ -10,6 +10,8 @@ public record CustomerDto(
         @Pattern(regexp = "[a-zA-Z ]+" , message = "Only chars and space are allowed in name")
         String name,
         @NotBlank(message = "City is mandatory")
-        String city
+        String city,
+        String username,
+        String password
 ) {
 }
