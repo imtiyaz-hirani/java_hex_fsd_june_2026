@@ -9,6 +9,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.List;
 
 @RestController
@@ -44,9 +45,11 @@ public class ProductController {
     }
 
     @GetMapping("/purchase/by-customer")
-    public List<OrderDto> getProductsPurchasedByCustomerUsername(@RequestParam String customerUsername,
+    public List<OrderDto> getProductsPurchasedByCustomerUsername(Principal principal,
                                                                  @RequestParam(required = false, defaultValue = "0") int page,
                                                                  @RequestParam(required = false, defaultValue = "5") int size){
+        // get the username of logged in user
+        String customerUsername = principal.getName();
         return productService.getProductsPurchasedByCustomerUsername(customerUsername, page,size);
     }
 }

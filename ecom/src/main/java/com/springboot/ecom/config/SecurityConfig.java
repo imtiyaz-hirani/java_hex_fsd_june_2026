@@ -18,22 +18,22 @@ public class SecurityConfig {
         UserDetails customer1 = User.builder()
                 .username("customer1")
                 .password("{noop}customer1")
-                .roles("CUSTOMER")
+                .authorities("CUSTOMER")
                 .build();
         UserDetails customer2 = User.builder()
                 .username("customer2")
                 .password("{noop}customer2")
-                .roles("CUSTOMER")
+                .authorities("CUSTOMER")
                 .build();
         UserDetails executive1 = User.builder()
                 .username("executive1")
                 .password("{noop}executive1")
-                .roles("EXECUTIVE")
+                .authorities("EXECUTIVE")
                 .build();
         UserDetails seller1 = User.builder()
                 .username("seller1")
                 .password("{noop}seller1")
-                .roles("SELLER")
+                .authorities("SELLER")
                 .build();
 
         return new InMemoryUserDetailsManager(customer1, customer2, executive1, seller1);
@@ -44,6 +44,8 @@ public class SecurityConfig {
         http
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers("/api/product/by-category/{categoryId}").permitAll()
+                        .requestMatchers("/api/product/count/for-each-seller").hasAuthority("EXECUTIVE")
+                        .requestMatchers("/api/product/purchase/by-customer").hasAnyAuthority("EXECUTIVE", "CUSTOMER")
                         .anyRequest().authenticated()
                 )
                 .httpBasic(Customizer.withDefaults());

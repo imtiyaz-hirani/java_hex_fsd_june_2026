@@ -6,6 +6,8 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
+
 @RestController
 @RequestMapping("/api/seller")
 @RequiredArgsConstructor
@@ -28,7 +30,8 @@ public class SellerController {
     }
 
     @DeleteMapping("/de-activate")
-    public void deactivateSeller(@RequestParam String sellerUsername){
+    public void deactivateSeller(Principal principal){
+        String sellerUsername = principal.getName();
         sellerService.deactivateSeller(sellerUsername);
     }
 }
