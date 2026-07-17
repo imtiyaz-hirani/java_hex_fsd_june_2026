@@ -1,6 +1,7 @@
 package com.springboot.ecom.config;
 
 import com.springboot.ecom.dto.response.ErrorMessageDto;
+import com.springboot.ecom.exception.InvalidCredentialsException;
 import com.springboot.ecom.exception.ResourceNotFoundException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -40,6 +41,15 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(IllegalArgumentException.class)
     public ResponseEntity<ErrorMessageDto> handleIllegalArgumentException(
             IllegalArgumentException e
+    ){
+        return ResponseEntity
+                .badRequest()
+                .body(new ErrorMessageDto(e.getMessage()));
+    }
+
+    @ExceptionHandler(InvalidCredentialsException.class)
+    public ResponseEntity<ErrorMessageDto> handleInvalidCredentialsException(
+            InvalidCredentialsException e
     ){
         return ResponseEntity
                 .badRequest()

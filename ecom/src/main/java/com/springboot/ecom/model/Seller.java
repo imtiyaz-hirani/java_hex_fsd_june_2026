@@ -27,6 +27,6 @@ public class Seller {
     private Instant onboardedOn;
 
     @ManyToOne
-    @JoinColumn(name = "executive_id", nullable = false)
+    @JoinColumn(name = "executive_id", nullable = true)
     private Executive executive;
 }

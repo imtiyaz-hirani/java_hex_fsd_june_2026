@@ -43,6 +43,7 @@ public void insert(String executiveUsername, @Valid SellerReqDto sellerReqDto) {
                                             Role.SELLER);
         // encode password before saving in db
         user.setPassword(passwordEncoder.encode(user.getPassword()));
+        user.setActivated(false);
 
         user = userRepository.save(user); // this user reference has an id attached.
 

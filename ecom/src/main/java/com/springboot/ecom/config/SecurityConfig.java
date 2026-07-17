@@ -7,6 +7,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -18,12 +19,14 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
 @RequiredArgsConstructor
 public class SecurityConfig {
 
     private final MyUserSecurityService myUserSecurityService;
+    private final JwtFilter jwtFilter;
 
     @Bean
     public SecurityFilterChain securedFilterChain(HttpSecurity http) throws Exception {
@@ -31,9 +34,12 @@ public class SecurityConfig {
         http
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(authorize -> authorize
+
                         .requestMatchers("/api/product/by-category/{categoryId}").permitAll()
-                        .requestMatchers("/api/product/count/for-each-seller").hasAuthority("EXECUTIVE")
-                        .requestMatchers("/api/product/purchase/by-customer").hasAnyAuthority("EXECUTIVE", "CUSTOMER")
+
+                        // Auth APIs
+                        .requestMatchers("/api/auth/login").authenticated()
+
 
                         // Sign Up Insert user APIs
                         .requestMatchers(HttpMethod.POST, "/api/auth/add/admin").denyAll()
@@ -41,8 +47,17 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.POST,"/api/executive/add").hasAuthority("ADMIN")
                         .requestMatchers(HttpMethod.POST,"/api/customer/add").permitAll()
                         .requestMatchers(HttpMethod.POST,"/api/seller/add").hasAnyAuthority("ADMIN", "EXECUTIVE")
+
+                        // Seller API
+                        .requestMatchers("/api/seller/de-activate").hasAnyAuthority("SELLER", "ADMIN")
+
+                        // Executive API
+                        .requestMatchers("/api/product/count/for-each-seller").hasAuthority("EXECUTIVE")
+                        .requestMatchers("/api/product/purchase/by-customer").hasAnyAuthority("EXECUTIVE", "CUSTOMER")
+
                         .anyRequest().authenticated()
                 )
+                .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
                 .httpBasic(Customizer.withDefaults());
         return http.build();
     }
