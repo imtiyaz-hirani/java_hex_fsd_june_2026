@@ -47,6 +47,9 @@ public class CustomerService {
     }
 
     public List<CustomerRespDto> getAll(int page, int size) {
+        if(size == 0)
+            throw new RuntimeException("Size has to be more than 0");
+
         // Work with Pagination
         Pageable pageable =  PageRequest.of(page,size);
         // Fetch all customer info

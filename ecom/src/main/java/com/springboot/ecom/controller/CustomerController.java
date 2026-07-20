@@ -28,8 +28,9 @@ public class CustomerController {
     }
 
     @GetMapping("/get-all")
-    public List<CustomerRespDto> getAll(@RequestParam Integer page,
-                                        @RequestParam Integer size){
+    public List<CustomerRespDto> getAll(@RequestParam(required = false, defaultValue = "0") Integer page,
+                                        @RequestParam(required = false, defaultValue = "20") Integer size){
+
         return customerService.getAll(page,size);
     }
 
