@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class CustomerMapper {
 
-    public Customer mapDtoToEntity(CustomerDto customerDto) {
+    public static Customer mapDtoToEntity(CustomerDto customerDto) {
         Customer customer = new Customer();
         customer.setName(customerDto.name());
         customer.setCity(customerDto.city());

@@ -37,7 +37,7 @@ public class CustomerService {
         user = userRepository.save(user);
 
         // Convert dto to Entity
-        Customer customer = customerMapper.mapDtoToEntity(customerDto);
+        Customer customer = CustomerMapper.mapDtoToEntity(customerDto);
 
         // Attach user to customer
         customer.setUser(user);

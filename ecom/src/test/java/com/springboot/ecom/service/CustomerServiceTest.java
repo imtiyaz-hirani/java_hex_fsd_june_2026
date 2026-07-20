@@ -13,6 +13,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
@@ -21,6 +22,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.w3c.dom.stylesheets.LinkStyle;
 
 import java.util.List;
@@ -39,6 +41,8 @@ public class CustomerServiceTest {
     private CustomerRepository customerRepository;
     @Mock
     private UserRepository userRepository;
+    @Mock
+    private PasswordEncoder passwordEncoder;
 
     private Customer customer1;
     private User user1;
@@ -59,6 +63,7 @@ public class CustomerServiceTest {
 
         user3 = new User(3L,"jack@gmail.com", "jack@123", Role.CUSTOMER,true);
         customer3 = new Customer(3L,"Jack Doe","Ooty",true, user3);
+
     }
 
     @Test
@@ -155,4 +160,44 @@ public class CustomerServiceTest {
         verify(customerRepository, times(1)).fetchById(11);
         verify(customerRepository, times(0)).save(customer1);
     }
+
+    @Test
+    public void addTest(){
+        // Prepare the user the will be given back after userRepository.save method
+        // do note: save(any(Customer.class)) this returns our prepared user 'user1' regardless of what we pass.
+        user1.setPassword("encodedPass");
+        when(userRepository.save(any(User.class))).thenReturn(user1);
+        // Any class of Customer that i ask you to save , u must save and give me 'customer1'
+        when(customerRepository.save(any(Customer.class))).thenReturn(customer1);
+        // when the actual method 'customerService.add(customerDto)' will run, and it will encounter
+        // passwordEncoder.encode("john@123") then , tell it to return 'encodedPass' for testing purpose
+        when(passwordEncoder.encode("john@123")).thenReturn("encodedPass");
+
+        // Preparing my Dto
+        CustomerDto customerDto = new CustomerDto(
+                "John J. Doe",
+                "London",
+                "john@gmail.com",
+                "john@123"
+        );
+
+        // make the call to actual method
+        customerService.add(customerDto);
+
+        // Define the captor to give it to the repository call
+        ArgumentCaptor<Customer> customerCaptor =  ArgumentCaptor.forClass(Customer.class);
+        // the response of this save method will get captured in customerCaptor
+        // This captor gives the saved object details , so we could check if saved info is equal to given info
+        // given info comes from dto
+        // saved info comes from captor
+
+        verify(customerRepository, times(1)).save(customerCaptor.capture());
+
+        // If the save method works fine, then we must have the name, city fields of captor (customer1)
+        // equal to that to dto that we have passed.
+        Assertions.assertEquals(customerDto.name(),customerCaptor.getValue().getName() );
+        Assertions.assertEquals(customerDto.city(),customerCaptor.getValue().getCity() );
+
+    }
+
 }
