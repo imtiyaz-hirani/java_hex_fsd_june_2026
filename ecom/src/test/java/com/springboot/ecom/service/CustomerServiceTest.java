@@ -200,4 +200,30 @@ public class CustomerServiceTest {
 
     }
 
+    @Test
+    public void deleteHardTest(){
+       // Prepare and Mock
+        when(customerRepository.findById(10L)).thenReturn(Optional.of(customer1));
+        doNothing().when(customerRepository).deleteById(10L);
+
+        // Actual Call
+        customerService.deleteHard(10L);
+
+        // Verify
+        verify(customerRepository, times(1)).deleteById(10L);
+    }
+
+    @Test
+    public void deleteHardTestNotFound(){
+        // Prepare for Exception
+        when(customerRepository.findById(11L)).thenReturn(Optional.empty());
+
+        // Actual Call with ResourceNotFoundException
+        Assertions.assertEquals("Customer id Invalid",
+                Assertions.assertThrows(ResourceNotFoundException.class, ()-> customerService.deleteHard(11L))
+                        .getMessage());
+
+        // verify : that this method is never getting called...
+        verify(customerRepository, never()).deleteById(anyLong());
+    }
 }
