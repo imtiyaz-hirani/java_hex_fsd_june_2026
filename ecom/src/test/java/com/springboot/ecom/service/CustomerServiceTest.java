@@ -1,5 +1,6 @@
 package com.springboot.ecom.service;
 
+import com.springboot.ecom.dto.request.CustomerDto;
 import com.springboot.ecom.dto.response.CustomerRespDto;
 import com.springboot.ecom.enums.Role;
 import com.springboot.ecom.exception.ResourceNotFoundException;
@@ -117,4 +118,41 @@ public class CustomerServiceTest {
         verify(customerRepository , times(1)).fetchAll(pageable2);
     }
 
+    @Test
+    public void updateTest(){
+        when(customerRepository.fetchById(10)).thenReturn(Optional.of(customer1));
+
+        CustomerDto customerDto = new CustomerDto(
+                "John J. Doe",
+                "London",
+                "",
+                ""
+        );
+        // I am making an actual call, this must ensure that , fetchById and save method both get called exactly ONCE
+        customerService.update(10 , customerDto);
+
+        verify(customerRepository, times(1)).fetchById(10);
+        verify(customerRepository, times(1)).save(customer1);
+
+    }
+
+    @Test
+    public void updateTestForInvalidCustomerId() {
+// Check for invalid customer id
+        when(customerRepository.fetchById(11)).thenReturn(Optional.empty());
+        CustomerDto customerDto = new CustomerDto(
+                "John J. Doe",
+                "London",
+                "",
+                ""
+        );
+        Assertions.assertEquals("Customer id Invalid",
+                Assertions.assertThrows(ResourceNotFoundException.class,
+                                ()->customerService.update(11 , customerDto) )
+                        .getMessage()
+        );
+
+        verify(customerRepository, times(1)).fetchById(11);
+        verify(customerRepository, times(0)).save(customer1);
+    }
 }
