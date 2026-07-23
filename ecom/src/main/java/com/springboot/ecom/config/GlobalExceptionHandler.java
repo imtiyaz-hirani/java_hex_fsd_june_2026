@@ -3,6 +3,8 @@ package com.springboot.ecom.config;
 import com.springboot.ecom.dto.response.ErrorMessageDto;
 import com.springboot.ecom.exception.InvalidCredentialsException;
 import com.springboot.ecom.exception.ResourceNotFoundException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
@@ -16,15 +18,19 @@ import java.util.Map;
 
 @ControllerAdvice
 public class GlobalExceptionHandler {
+    private Logger logger =  LoggerFactory.getLogger("GlobalExceptionHandler.java");
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<Map<String,String>> handleMethodArgumentNotValidException(
             MethodArgumentNotValidException e
     ){
+         logger.info("Calling MethodArgumentNotValidException");
          BindingResult result =  e.getBindingResult();
          List<FieldError> list = result.getFieldErrors();
          Map<String,String> map = new HashMap<>();
          list.forEach(err-> map.put(err.getField(), err.getDefaultMessage()));
+         logger.error("Request failed validation");
+         logger.info("Validation Rules defined in DTO in package com.springboot.ecom.dto.request");
          return ResponseEntity
                  .badRequest()
                  .body(map);
