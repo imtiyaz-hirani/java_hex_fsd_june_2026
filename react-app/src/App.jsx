@@ -1,10 +1,10 @@
-import CountOp from "./components/countOp"
+ import Dashboard from "./components/Dashboard"
 
  function App() { // Component - Base
 
   return ( 
     <div>
-       <CountOp />
+       <Dashboard />
     </div>
   )
 }
