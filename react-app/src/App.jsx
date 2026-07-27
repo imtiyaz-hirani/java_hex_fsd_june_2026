@@ -7,8 +7,8 @@ import Users from "./components/Users"
   return ( 
     <div>
        {/* <Dashboard /> */}
-       {/* <Users /> */}
-       <AddUser />
+       <Users />
+       {/* <AddUser /> */}
     </div>
   )
 }
