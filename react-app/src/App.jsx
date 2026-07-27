@@ -1,10 +1,12 @@
  import Dashboard from "./components/Dashboard"
+import Users from "./components/Users"
 
  function App() { // Component - Base
 
   return ( 
     <div>
-       <Dashboard />
+       {/* <Dashboard /> */}
+       <Users />
     </div>
   )
 }
