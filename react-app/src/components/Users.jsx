@@ -4,6 +4,7 @@ function Users() {
 
     return (
         <div className="container">
+            
             <div className="row">
                 {
                     user_data.map((user) => (
@@ -21,6 +22,7 @@ function Users() {
                                             <br />
                                             {user.company.name}
                                     </p>
+                                        
                                  </div>   
                              </div>      
                         </div>

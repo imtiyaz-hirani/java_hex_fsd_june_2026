@@ -1,4 +1,5 @@
- import Dashboard from "./components/Dashboard"
+ import AddUser from "./components/AddUser"
+import Dashboard from "./components/Dashboard"
 import Users from "./components/Users"
 
  function App() { // Component - Base
@@ -6,7 +7,8 @@ import Users from "./components/Users"
   return ( 
     <div>
        {/* <Dashboard /> */}
-       <Users />
+       {/* <Users /> */}
+       <AddUser />
     </div>
   )
 }
