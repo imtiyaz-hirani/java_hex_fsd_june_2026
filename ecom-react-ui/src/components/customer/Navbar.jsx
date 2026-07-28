@@ -42,8 +42,6 @@ function Navbar() {
                                                     <Link className="dropdown-item" to={`/product/${c.id}`} >{c.name}</Link></li>
                                             ))
                                         }
-
-
                                     </ul>
                                 </li>
                                 <li className="nav-item">

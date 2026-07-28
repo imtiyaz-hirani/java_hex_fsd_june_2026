@@ -35,6 +35,7 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(authorize -> authorize
 
+                        .requestMatchers("/api/category/all").permitAll()
                         .requestMatchers("/api/product/by-category/{categoryId}").permitAll()
 
                         // Auth APIs
