@@ -41,7 +41,6 @@ public class SecurityConfig {
                         // Auth APIs
                         .requestMatchers("/api/auth/login").authenticated()
 
-
                         // Sign Up Insert user APIs
                         .requestMatchers(HttpMethod.POST, "/api/auth/add/admin").denyAll()
 

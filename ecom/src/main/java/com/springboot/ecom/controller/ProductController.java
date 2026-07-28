@@ -4,6 +4,7 @@ import com.springboot.ecom.dto.request.ProductReqDto;
 import com.springboot.ecom.dto.response.OrderDto;
 import com.springboot.ecom.dto.response.ProductResDto;
 import com.springboot.ecom.dto.response.ProductResStatDto;
+import com.springboot.ecom.enums.ProductPriceFilter;
 import com.springboot.ecom.service.ProductService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -36,8 +37,9 @@ public class ProductController {
     @GetMapping("/by-category/{categoryId}")
      public List<ProductResDto> getByCategoryId(@PathVariable long categoryId,
                                                 @RequestParam(required = false, defaultValue = "0") int page,
-                                                @RequestParam(required = false, defaultValue = "50") int size){
-        return productService.getByCategoryId(categoryId,page,size);
+                                                @RequestParam(required = false, defaultValue = "50") int size,
+                                                @RequestParam(required = false, defaultValue = "NO_SORT_PRICE") ProductPriceFilter priceFilter){
+        return productService.getByCategoryId(categoryId,page,size, priceFilter);
     }
 
     @GetMapping("/count/for-each-seller")

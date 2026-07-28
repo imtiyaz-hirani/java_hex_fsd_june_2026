@@ -4,6 +4,7 @@ import com.springboot.ecom.dto.request.ProductReqDto;
 import com.springboot.ecom.dto.response.OrderDto;
 import com.springboot.ecom.dto.response.ProductResDto;
 import com.springboot.ecom.dto.response.ProductResStatDto;
+import com.springboot.ecom.enums.ProductPriceFilter;
 import com.springboot.ecom.exception.ResourceNotFoundException;
 import com.springboot.ecom.mapper.OrderMapper;
 import com.springboot.ecom.mapper.ProductMapper;
@@ -13,11 +14,14 @@ import com.springboot.ecom.model.Seller;
 import com.springboot.ecom.repository.CategoryRepository;
 import com.springboot.ecom.repository.ProductRepository;
 import com.springboot.ecom.repository.SellerRepository;
+import jakarta.persistence.criteria.CriteriaBuilder;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -51,12 +55,24 @@ public class ProductService {
         productRepository.save(product);
     }
 
-    public List<ProductResDto> getByCategoryId(long categoryId, int page, int size) {
-        // Step 0: Using page and size create the reference of Pageable
-         Pageable pageable= PageRequest.of(page,size);
-        // Step 1: Fetch List of Products by category ID
-        List<Product> list = productRepository.findByCategoryId(categoryId,pageable);
+    public List<ProductResDto> getByCategoryId(long categoryId, int page, int size, ProductPriceFilter priceFilter) {
 
+        Pageable pageable= null;
+
+        if(priceFilter.equals(ProductPriceFilter.NO_SORT_PRICE)){
+            // Step 0: Using page and size create the reference of Pageable
+            pageable= PageRequest.of(page,size);
+        }
+        else{
+            // Stp 0: Define Sort
+            Sort sort = Sort.by(
+                    priceFilter.equals(ProductPriceFilter.HIGH_TO_LOW_PRICE)?
+                            Sort.Direction.DESC :
+                            Sort.Direction.ASC, "price");
+
+            pageable= PageRequest.of(page,size,sort);
+        }
+        List<Product> list = productRepository.findByCategoryId(categoryId,pageable);
         // Step 2: Use Mapper to convert List<Product> to List<ProductResDto> [Entity --> DTO]
         return  list
                 .stream()

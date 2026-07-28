@@ -9,12 +9,12 @@ function ProductList() {
     const [products, setProducts] = useState([])
     const [page, setPage] = useState(0)
     const [size, setSize] = useState(8)
-
+    const [filter, setFilter] = useState('NO_SORT_PRICE')
     useEffect(() => {
 
         const getAllProductsByCategory = async () => {
             try {
-                const response = await axios.get(`${productApi}${categoryId}?page=${page}&size=${size}`)
+                const response = await axios.get(`${productApi}${categoryId}?page=${page}&size=${size}&priceFilter=${filter}`)
                 setProducts(response.data)
             }
             catch (err) {
@@ -23,7 +23,7 @@ function ProductList() {
         }
 
         getAllProductsByCategory()
-    }, [categoryId, page, size])
+    }, [categoryId, page, size, filter])
 
     const computePage = (op)=>{
         switch(op){
@@ -39,10 +39,36 @@ function ProductList() {
     const computeSize = (isize)=>{
         setSize(isize)
     }
+
+    const filterOp =(op)=>{
+        switch(op){
+            case 'HIGH_TO_LOW_PRICE':
+                setFilter('HIGH_TO_LOW_PRICE')
+                break; 
+            case 'LOW_TO_HIGH_PRICE':
+                setFilter('LOW_TO_HIGH_PRICE')
+                break;     
+            case 'NO_SORT_PRICE':
+                setFilter('NO_SORT_PRICE')
+                break;     
+        }
+    }
     return (
 
         <div className="container-fluid">
-
+            <div className="row mt-4 mb-4">
+                <div className="col-lg-12">
+                    <div className="card">
+                        <div className="card-body">
+                             <p>Sort by Price <br />
+                             <input type="radio" name="sort" onClick={()=> filterOp("HIGH_TO_LOW_PRICE")}/> Highest to Lowest <br />
+                             <input type="radio" name="sort" onClick={()=> filterOp("LOW_TO_HIGH_PRICE")}/> Lowest to Highest <br />
+                             </p>
+                             <button onClick={()=> filterOp("NO_SORT_PRICE")}>clear</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <div className="row ">
                 {
                     products.map((p) => (

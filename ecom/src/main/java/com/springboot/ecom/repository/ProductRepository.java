@@ -4,6 +4,7 @@ import com.springboot.ecom.dto.response.OrderDto;
 import com.springboot.ecom.dto.response.ProductResStatDto;
 import com.springboot.ecom.model.Product;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
@@ -58,6 +59,8 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
              where s.id = ?1
              """)
     List<Product> getProductBySellerId(long id);
+
+
 }
 /*
 findByCategoryId:
