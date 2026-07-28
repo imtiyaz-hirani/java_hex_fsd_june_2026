@@ -9,9 +9,9 @@ import ProductList from "./components/customer/ProductList"
        <Routes> 
           <Route path="" element={<CustomerHome />}  > 
             <Route path="" element={<FeaturedProductList />}/>
-            <Route path="/product/:category-id" element={<ProductList />}/>
+            <Route path="/product/:categoryId" element={<ProductList />}/>
           </Route>
-          
+
           <Route path="*" element={<PageNotFound />} />
 
        </Routes>
