@@ -7,12 +7,14 @@ function ProductList() {
     const { categoryId } = useParams()
     const productApi = 'http://localhost:8080/api/product/by-category/'
     const [products, setProducts] = useState([])
+    const [page, setPage] = useState(0)
+    const [size, setSize] = useState(8)
 
     useEffect(() => {
-        
+
         const getAllProductsByCategory = async () => {
             try {
-                const response = await axios.get(productApi + categoryId)
+                const response = await axios.get(`${productApi}${categoryId}?page=${page}&size=${size}`)
                 setProducts(response.data)
             }
             catch (err) {
@@ -21,7 +23,22 @@ function ProductList() {
         }
 
         getAllProductsByCategory()
-    }, [categoryId])
+    }, [categoryId, page, size])
+
+    const computePage = (op)=>{
+        switch(op){
+            case 'PREV':
+                setPage(page === 0? page : (page-1))
+                break
+            case 'NEXT':
+                setPage(page+1)
+                break
+        }
+    }
+
+    const computeSize = (isize)=>{
+        setSize(isize)
+    }
     return (
 
         <div className="container-fluid">
@@ -47,7 +64,32 @@ function ProductList() {
 
 
             </div>
+            <div className="row">
+                <div className="col-sm-4"></div>
+                <div className="col-sm-4">
+                    <nav aria-label="Page navigation example">
+                        <div className="alert  "  >
+                            <ul className="pagination">
+                                <li className="page-item"><button className="page-link" 
+                                onClick={()=> computePage('PREV')}
+                                >Previous</button></li>
+                                <li className="page-item"> 
+                                    <select onChange={($event)=> computeSize($event.target.value)} className="form-control">
+                                        <option>8</option>
+                                        <option>12</option>
+                                        <option>16</option>
+                                        <option>20</option>
+                                    </select>    
+                                </li>
+                                <li className="page-item"><button className="page-link" 
+                                onClick={()=>computePage('NEXT')}
+                                >Next</button></li>
+                            </ul>
+                        </div>
 
+                    </nav>
+                </div>
+            </div>
         </div>
 
     )
