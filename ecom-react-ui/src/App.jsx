@@ -11,6 +11,7 @@ import ProductList from "./components/customer/ProductList"
             <Route path="" element={<FeaturedProductList />}/>
             <Route path="/product/:category-id" element={<ProductList />}/>
           </Route>
+          
           <Route path="*" element={<PageNotFound />} />
 
        </Routes>
