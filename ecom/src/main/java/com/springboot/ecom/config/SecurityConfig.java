@@ -55,6 +55,9 @@ public class SecurityConfig {
                         .requestMatchers("/api/product/count/for-each-seller").hasAuthority("EXECUTIVE")
                         .requestMatchers("/api/product/purchase/by-customer").hasAnyAuthority("EXECUTIVE", "CUSTOMER")
 
+                        /* Travel Case Study APIs */
+                        .requestMatchers("/api/passenger/all").permitAll()
+
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)

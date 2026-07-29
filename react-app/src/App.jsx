@@ -5,6 +5,7 @@ import Users from "./components/Users"
 import PageNotFound from "./components/PageNotFound"
 import Navbar from "./components/Navbar"
 import TodoList from "./components/TodoList"
+import Passengers from "./components/Passengers"
 
 function App() { // Component - Base
 
@@ -16,6 +17,7 @@ function App() { // Component - Base
         <Route path='users' element={<Users />} />
         <Route path='add-customer' element={<AddUser />} />
         <Route path='todo-list' element={<TodoList />} />
+        <Route path='passengers' element={<Passengers />} />
         <Route path='*' element={<PageNotFound />} />
       </Routes>
     </div>
