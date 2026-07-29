@@ -61,4 +61,13 @@ public class GlobalExceptionHandler {
                 .badRequest()
                 .body(new ErrorMessageDto(e.getMessage()));
     }
+
+    @ExceptionHandler(RuntimeException.class)
+    public ResponseEntity<ErrorMessageDto> handleRuntimeException(
+            RuntimeException e
+    ){
+        return ResponseEntity
+                .badRequest()
+                .body(new ErrorMessageDto(e.getMessage()));
+    }
 }

@@ -34,6 +34,8 @@ public class SecurityConfig {
         http
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(authorize -> authorize
+                        // preflight
+                        .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
 
                         .requestMatchers("/api/category/all").permitAll()
                         .requestMatchers("/api/product/by-category/{categoryId}").permitAll()
@@ -56,7 +58,8 @@ public class SecurityConfig {
                         .requestMatchers("/api/product/purchase/by-customer").hasAnyAuthority("EXECUTIVE", "CUSTOMER")
 
                         /* Travel Case Study APIs */
-                        .requestMatchers("/api/passenger/all").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/passenger/all").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/api/passenger/add").permitAll()
 
                         .anyRequest().authenticated()
                 )

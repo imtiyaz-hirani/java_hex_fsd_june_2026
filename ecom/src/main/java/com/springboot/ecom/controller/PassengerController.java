@@ -1,7 +1,9 @@
 package com.springboot.ecom.controller;
 
+import com.springboot.ecom.dto.request.PassengerReqDto;
 import com.springboot.ecom.model.Passenger;
 import com.springboot.ecom.service.PassengerService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,4 +25,8 @@ public class PassengerController {
         return passengerService.getAll(page,size);
     }
 
+    @PostMapping("/add")
+    public void add( @Valid  @RequestBody PassengerReqDto passengerReqDto){
+        passengerService.add(passengerReqDto);
+    }
 }
