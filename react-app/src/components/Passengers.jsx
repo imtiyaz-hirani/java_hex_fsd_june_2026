@@ -13,11 +13,12 @@ function Passengers() {
     const [contact, setContact] = useState('')
 
     const [successMsg, setSuccessMsg] = useState('')
-    const [errMsg,setErrorMsg] = useState('') 
+    const [errMsg, setErrorMsg] = useState('')
     const [nameErrMsg, setNameErrMsg] = useState('')
     const [contactErrMsg, setContactErrMsg] = useState('')
     const [count, setCount] = useState(0)
-
+    // for toast 
+    const [pname, setPname] = useState('')
     useEffect(() => {
         // Fn for calling API 
         const getAllPassengers = async () => {
@@ -35,41 +36,53 @@ function Passengers() {
 
     }, [page, size, count]) // if any of these page and size value changes, useEffect gets called and API gets called.
 
-    const add = async() => {
+    const add = async () => {
         // POST API 
         let body = {
             "name": name,
             "contact": contact
         }
-        try{
-            await axios.post('http://localhost:8080/api/passenger/add',body)
+        try {
+            await axios.post('http://localhost:8080/api/passenger/add', body)
             setSuccessMsg('Passenger added to system')
             setErrorMsg('')
             setCount(count + 1)
         }
-        catch(err){
+        catch (err) {
             console.log(err.response.data)
             setErrorMsg(err.response.data.message)
             setNameErrMsg(err.response.data.name)
             setContactErrMsg(err.response.data.contact)
             setSuccessMsg('')
         }
-        
+
     }
 
-    const onAdd = ()=>{
+    const onAdd = () => {
         // clean up
         setSuccessMsg('')
         setErrorMsg('')
         setNameErrMsg('')
         setContactErrMsg('')
-        setName('') 
+        setName('')
         setContact('')
+    }
+
+    const onDelete = async (pid,pname) => {
+        try {
+            await axios.delete(`http://localhost:8080/api/passenger/delete/${pid}`)
+            setPname(pname)
+             
+            setCount(count + 1)
+        }
+        catch (err) {
+            console.log(err)
+        }
     }
     return (
         <div className="container">
             <div className="mt-4">
-                <button className="btn btn-secondary " onClick={()=>onAdd() } data-bs-toggle="modal" data-bs-target="#addPassengerForm">
+                <button className="btn btn-secondary " onClick={() => onAdd()} data-bs-toggle="modal" data-bs-target="#addPassengerForm">
                     +Add Passenger
                 </button>
             </div>
@@ -93,7 +106,7 @@ function Passengers() {
                                 <td>{p.createdAt.split('T')[0]}</td>
                                 <td>
                                     <i className="bi bi-eye fs-1"></i> &nbsp;&nbsp;&nbsp;
-                                    <i className="bi bi-trash fs-2"></i>
+                                    <i id="liveToastBtn" className="bi bi-trash fs-2" onClick={() => onDelete(p.id, p.name)}></i>
                                 </td>
                             </tr>
                         ))
@@ -135,38 +148,53 @@ function Passengers() {
                         </div>
                         <div className="modal-body">
                             {
-                                successMsg !== ''? <div className="alert alert-primary mb-4">
-                                {successMsg}
-                            </div> : ""
+                                successMsg !== '' ? <div className="alert alert-primary mb-4">
+                                    {successMsg}
+                                </div> : ""
                             }
 
                             {
-                                errMsg !== ''? <div className="alert alert-danger mb-4">
-                                {errMsg}
-                            </div> : ""
+                                errMsg !== '' & errMsg !== undefined ? <div className="alert alert-danger mb-4">
+                                    {errMsg}
+                                </div> : ""
                             }
-                            
+
                             <div className=" mb-4">
                                 <label>Name: </label> <span>{nameErrMsg}</span>
                                 <input type="text" className="form-control" value={name}
                                     onChange={($event) => {
                                         setName($event.target.value)
-                                        setNameErrMsg('')    
+                                        setNameErrMsg('')
                                     }} />
                             </div>
                             <div className="mb-4">
-                                <label>Contact: &nbsp;&nbsp;&nbsp;</label><span style={{color: 'red', fontSize: '14px'}}>{contactErrMsg}</span>
+                                <label>Contact: &nbsp;&nbsp;&nbsp;</label><span style={{ color: 'red', fontSize: '14px' }}>{contactErrMsg}</span>
                                 <input type="number" className="form-control" value={contact}
                                     onChange={($event) => {
                                         setContact($event.target.value)
                                         setContactErrMsg('')
-                                        }} />
+                                    }} />
                             </div>
                         </div>
                         <div className="modal-footer">
                             <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                             <button type="button" className="btn btn-primary" onClick={() => add()}>Save changes</button>
                         </div>
+                    </div>
+                </div>
+            </div>
+            {/* <!-- Toast --> */}
+            <div className="toast-container position-fixed top-0 start-50 translate-middle-x p-3" >
+                <div id="deleteToast" className="toast"  
+                 >
+                    <div className="toast-header">
+
+                        <strong className="me-auto">My Travel Portal</strong>
+                        
+                        <button type="button" className="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                    </div>
+                    <div className="toast-body">
+                        {`Passenger: ${pname}'s record archived`}
                     </div>
                 </div>
             </div>

@@ -29,4 +29,9 @@ public class PassengerController {
     public void add( @Valid  @RequestBody PassengerReqDto passengerReqDto){
         passengerService.add(passengerReqDto);
     }
+
+    @DeleteMapping("/delete/{passengerId}")
+    public void delete(@PathVariable long passengerId){
+        passengerService.delete(passengerId);
+    }
 }

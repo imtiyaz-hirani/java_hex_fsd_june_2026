@@ -23,4 +23,6 @@ public class Passenger {
     private String contact;
     @CreationTimestamp
     private Instant createdAt;
+    private boolean isActive = true; //findByIsActive(isActive)
+
 }

@@ -1,6 +1,7 @@
 package com.springboot.ecom.service;
 
 import com.springboot.ecom.dto.request.PassengerReqDto;
+import com.springboot.ecom.exception.ResourceNotFoundException;
 import com.springboot.ecom.model.Passenger;
 import com.springboot.ecom.repository.PassengerRepository;
 import jakarta.validation.Valid;
@@ -21,7 +22,7 @@ public class PassengerService {
 
     public List<Passenger> getAll(int page, int size) {
         Pageable pageable =  PageRequest.of(page,size,Sort.by(Sort.Direction.DESC, "createdAt"));
-        return passengerRepository.findAll(pageable).toList();
+        return passengerRepository.findByIsActive(true, pageable);
     }
 
     public void add(@Valid PassengerReqDto passengerReqDto) {
@@ -37,5 +38,16 @@ public class PassengerService {
 
         passengerRepository.save(passenger);
 
+    }
+
+    public void delete(long passengerId) {
+        Passenger passenger = passengerRepository.findById(passengerId)
+                .orElseThrow(()-> new ResourceNotFoundException("Passenger Id invalid"));
+
+        // update the isActive to false
+        passenger.setActive(false);
+
+        // save it
+        passengerRepository.save(passenger);
     }
 }

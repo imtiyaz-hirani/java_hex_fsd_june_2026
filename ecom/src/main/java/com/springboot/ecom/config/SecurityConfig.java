@@ -40,6 +40,7 @@ public class SecurityConfig {
                         .requestMatchers("/api/category/all").permitAll()
                         .requestMatchers("/api/product/by-category/{categoryId}").permitAll()
 
+
                         // Auth APIs
                         .requestMatchers("/api/auth/login").authenticated()
 
@@ -60,7 +61,7 @@ public class SecurityConfig {
                         /* Travel Case Study APIs */
                         .requestMatchers(HttpMethod.GET, "/api/passenger/all").permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/passenger/add").permitAll()
-
+                        .requestMatchers(HttpMethod.DELETE, "/api/passenger/delete/{passengerId}").permitAll()
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
