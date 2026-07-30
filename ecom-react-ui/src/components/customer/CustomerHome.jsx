@@ -1,5 +1,6 @@
-import { Outlet } from "react-router"
+import { Outlet, useNavigate } from "react-router"
 import Navbar from "./Navbar"
+import { useEffect } from "react"
 
 function CustomerHome(){
 

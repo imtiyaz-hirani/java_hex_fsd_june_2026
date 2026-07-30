@@ -8,6 +8,12 @@ function Navbar() {
     const [categories, setCategories] = useState([])
     const navigate = useNavigate()
 
+    // Read info from localStorage 
+    const username = localStorage.getItem('username') // this reads logged-in username
+
+    const token = localStorage.getItem('token') // this reads logged-in user's token
+    const role = localStorage.getItem('role') // this reads logged-in user's role
+
     useEffect(() => {
         const getAllCategory = async () => {
             try {
@@ -19,7 +25,13 @@ function Navbar() {
             }
         }
         getAllCategory()
+
+
     }, [])
+    const onLogout = () => {
+        localStorage.clear() //all user's status will be cleaned from localstorage 
+        navigate("/login")
+    }
     return (
         <div className="row">
             <div className="col-lg-12">
@@ -38,7 +50,7 @@ function Navbar() {
                                     </a>
                                     <ul className="dropdown-menu">
                                         {
-                                            categories.map((c,index) => (
+                                            categories.map((c, index) => (
                                                 <li key={index}>
                                                     <Link className="dropdown-item" to={`/product/${c.id}`} >{c.name}</Link></li>
                                             ))
@@ -49,11 +61,22 @@ function Navbar() {
                                     <a className="nav-link disabled" aria-disabled="true">Disabled</a>
                                 </li>
                             </ul>
-                            <form className="d-flex" role="search">
-                                <input className="form-control me-2" type="search" placeholder="Search" aria-label="Search" />
-                                <button className="btn btn-outline-success" type="submit">Search</button>
+                            <form >
+                                  
                                 &nbsp;&nbsp;&nbsp;&nbsp;
-                                <button className="btn btn-outline-success" onClick={()=> navigate("/login")} >Login</button>
+                                {
+                                    (username === undefined || username === null) ?
+                                        <span>
+                                            <button className="btn btn-outline-success" onClick={() => navigate("/login")} >Login</button>
+                                        </span>
+
+                                        :
+                                        <span>
+                                            Welcome {username}, &nbsp;&nbsp;&nbsp;
+                                            <button className="btn btn-outline-success" onClick={() => onLogout()} >Logout</button>
+                                        </span>
+
+                                }
                             </form>
                         </div>
                     </div>

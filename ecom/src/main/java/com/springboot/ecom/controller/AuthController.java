@@ -2,6 +2,7 @@ package com.springboot.ecom.controller;
 
 import com.springboot.ecom.dto.request.AdminDto;
 import com.springboot.ecom.dto.response.TokenDto;
+import com.springboot.ecom.dto.response.UserRespDto;
 import com.springboot.ecom.model.User;
 import com.springboot.ecom.service.UserService;
 import com.springboot.ecom.utility.JwtUtility;
@@ -47,5 +48,16 @@ public class AuthController {
                 jwtUtility.extractExpiration(token).toString(),
                 user.getRole().toString()
         );
+    }
+
+    @GetMapping("/user-details")
+    public UserRespDto getUserDetails(Principal principal){
+        logger.info("Fetching details of User {}", principal.getName());
+        String loggedInUsername = principal.getName();
+        User user =  userService.getUserDetails(loggedInUsername);
+         return new UserRespDto(
+                 loggedInUsername,
+                 user.getRole().toString()
+         );
     }
 }
