@@ -1,11 +1,12 @@
 import axios from "axios"
 import { useEffect, useState } from "react"
-import { Link } from "react-router"
+import { Link, useNavigate } from "react-router"
 
 function Navbar() {
 
     const categoryGetAllApi = 'http://localhost:8080/api/category/all'
     const [categories, setCategories] = useState([])
+    const navigate = useNavigate()
 
     useEffect(() => {
         const getAllCategory = async () => {
@@ -51,6 +52,8 @@ function Navbar() {
                             <form className="d-flex" role="search">
                                 <input className="form-control me-2" type="search" placeholder="Search" aria-label="Search" />
                                 <button className="btn btn-outline-success" type="submit">Search</button>
+                                &nbsp;&nbsp;&nbsp;&nbsp;
+                                <button className="btn btn-outline-success" onClick={()=> navigate("/login")} >Login</button>
                             </form>
                         </div>
                     </div>
