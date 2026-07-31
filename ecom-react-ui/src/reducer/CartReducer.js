@@ -14,7 +14,7 @@ const initialState ={
         case  'DELETE_TO_CART':
             return{
                 ...state, //new state cloned from previous one 
-                cart =  state.cart.filter((p)=>p.id !== action.payload)
+                cart : state.cart.filter(p=>p.id !== action.payload)
                 // all those products having id not equal to given id(for delete) can stay 
             }
             

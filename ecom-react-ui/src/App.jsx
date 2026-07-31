@@ -7,13 +7,15 @@ import Login from "./components/auth/Login"
 import SellerDashboard from "./components/seller/SellerDashboard"
 import ExecutiveDashboard from "./components/executive/ExecutiveDashboard"
 import AdminDashboard from "./components/admin/AdminDashboard"
+import Cart from "./components/customer/Cart"
 
  function App() {
   return (
        <Routes> 
           <Route path="" element={<CustomerHome />}  > 
             <Route path="" element={<FeaturedProductList />}/>
-            <Route path="/product/:categoryId" element={<ProductList />}/>  
+            <Route path="/product/:categoryId" element={<ProductList />}/> 
+            <Route path="/cart" element={<Cart />}/> 
           </Route>
           <Route path="login" element={<Login />}/>
           <Route path="seller" element={<SellerDashboard />}/>

@@ -1,6 +1,8 @@
 import axios from "axios"
 import { useEffect, useState } from "react"
+import { useDispatch } from "react-redux"
 import { useParams } from "react-router"
+import { addToCart } from "../../actions/CartAction"
 
 function ProductList() {
 
@@ -10,6 +12,7 @@ function ProductList() {
     const [page, setPage] = useState(0)
     const [size, setSize] = useState(8)
     const [filter, setFilter] = useState('NO_SORT_PRICE')
+    const dispatch = useDispatch()
     useEffect(() => {
 
         const getAllProductsByCategory = async () => {
@@ -53,6 +56,11 @@ function ProductList() {
                 break;     
         }
     }
+
+    const addToCartFn = (product)=>{
+        dispatch(addToCart(product))
+        console.log('product added to cart.. give toast')
+    }
     return (
 
         <div className="container-fluid">
@@ -71,8 +79,8 @@ function ProductList() {
             </div>
             <div className="row ">
                 {
-                    products.map((p) => (
-                        <div className="col-sm-3 mt-4">
+                    products.map((p,index) => (
+                        <div className="col-sm-3 mt-4" key={index}>
                             <div className="card">
                                 <img src="https://placehold.co/600x400" className="card-img-top" alt="Product" />
                                 <div className="card-body">
@@ -81,7 +89,7 @@ function ProductList() {
                                         <br />
                                         Seller Name: {p.sellerName}
                                     </p>
-                                    <button className="btn btn-primary">Add to Cart</button>
+                                    <button className="btn btn-primary" onClick={()=>addToCartFn(p)}>Add to Cart</button>
                                 </div>
                             </div>
                         </div>

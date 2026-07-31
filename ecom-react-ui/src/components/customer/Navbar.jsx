@@ -61,8 +61,11 @@ function Navbar() {
                                     <a className="nav-link disabled" aria-disabled="true">Disabled</a>
                                 </li>
                             </ul>
-                            <form >
+                             
                                   
+                                &nbsp;&nbsp;&nbsp;&nbsp;
+                                 <button className="btn btn-outline-success" onClick={() => navigate("/cart")} >Cart</button>
+
                                 &nbsp;&nbsp;&nbsp;&nbsp;
                                 {
                                     (username === undefined || username === null) ?
@@ -74,10 +77,11 @@ function Navbar() {
                                         <span>
                                             Welcome {username}, &nbsp;&nbsp;&nbsp;
                                             <button className="btn btn-outline-success" onClick={() => onLogout()} >Logout</button>
+
                                         </span>
 
                                 }
-                            </form>
+                             
                         </div>
                     </div>
                 </nav>
