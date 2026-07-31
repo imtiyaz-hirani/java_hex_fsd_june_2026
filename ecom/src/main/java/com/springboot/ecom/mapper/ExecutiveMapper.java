@@ -1,6 +1,7 @@
 package com.springboot.ecom.mapper;
 
 import com.springboot.ecom.dto.request.ExecutiveReqDto;
+import com.springboot.ecom.dto.request.ExecutiveRespDto;
 import com.springboot.ecom.dto.response.ExecutiveResDto;
 import com.springboot.ecom.enums.JobTitle;
 import com.springboot.ecom.model.Executive;
@@ -22,5 +23,14 @@ public class ExecutiveMapper {
                 executive.getJobTitle()
         );
 
+    }
+
+    public static ExecutiveRespDto toDto(Executive executive){
+         return   new ExecutiveRespDto(
+                 executive.getId(),
+                 executive.getName(),
+                 executive.getJobTitle(),
+                 executive.getUser().getUsername()
+         );
     }
 }

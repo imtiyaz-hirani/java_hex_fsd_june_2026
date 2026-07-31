@@ -58,6 +58,8 @@ public class SecurityConfig {
                         // Executive API
                         .requestMatchers("/api/product/count/for-each-seller").hasAuthority("EXECUTIVE")
                         .requestMatchers("/api/product/purchase/by-customer").hasAnyAuthority("EXECUTIVE", "CUSTOMER")
+                        // ADMIN API
+                        .requestMatchers("/api/executive/all").hasAuthority("ADMIN")
 
                         /* Travel Case Study APIs */
                         .requestMatchers(HttpMethod.GET, "/api/passenger/all").permitAll()

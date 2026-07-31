@@ -2,6 +2,7 @@ package com.springboot.ecom.service;
 
 import com.springboot.ecom.dto.request.ExecutiveReqDto;
 
+import com.springboot.ecom.dto.request.ExecutiveRespDto;
 import com.springboot.ecom.dto.response.ExecutiveResDto;
 import com.springboot.ecom.enums.JobTitle;
 import com.springboot.ecom.enums.Role;
@@ -53,5 +54,13 @@ public class ExecutiveService {
                 .stream()
                 .map(ExecutiveMapper :: convertEntityToDto)
                 .toList();
+    }
+
+    public List<ExecutiveRespDto> getAll() {
+        List<Executive> list = executiveRepository.findAll();
+        return list.stream()
+                .map(ExecutiveMapper :: toDto)
+                .toList();
+
     }
 }

@@ -1,6 +1,7 @@
 package com.springboot.ecom.controller;
 
 import com.springboot.ecom.dto.request.ExecutiveReqDto;
+import com.springboot.ecom.dto.request.ExecutiveRespDto;
 import com.springboot.ecom.dto.response.ExecutiveResDto;
 import com.springboot.ecom.enums.JobTitle;
 import com.springboot.ecom.model.Executive;
@@ -14,6 +15,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/executive")
 @RequiredArgsConstructor
+@CrossOrigin(origins = "http://localhost:5173")
 public class ExecutiveController {
 
     private final ExecutiveService executiveService;
@@ -36,4 +38,9 @@ public class ExecutiveController {
     public List<ExecutiveResDto> getByJobTitle(@RequestParam JobTitle jobTitle){
         return executiveService.getByJobTitle(jobTitle);
     }
-}
+
+    @GetMapping("/all")
+    public List<ExecutiveRespDto> getAllExecutives(){
+        return executiveService.getAll();
+    }
+ }

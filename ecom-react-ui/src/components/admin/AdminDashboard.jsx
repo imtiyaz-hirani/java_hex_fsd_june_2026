@@ -1,13 +1,16 @@
 import axios from "axios"
 import { useEffect } from "react"
 import { useNavigate } from "react-router"
+import ExecutiveList from "./ExecutiveList"
+import { useDispatch } from "react-redux"
+import { getAll } from "../../actions/ExecutiveActions"
 
 function AdminDashboard() {
 
     const navigate = useNavigate()
-
+    
     useEffect(() => {
-        console.log(' in use effect')
+         
         const verifyAuth = async () => {
             console.log(' in verify auth')
             const token = localStorage.getItem('token')
@@ -21,7 +24,7 @@ function AdminDashboard() {
                 console.log("in verify in admin " + response.data)
                 const legalUsername = response.data?.username
                 const legalRole = response.data?.role
-                  console.log(legalUsername + "  " + legalRole)
+                console.log(legalUsername + "  " + legalRole)
 
                 const localUsername = localStorage.getItem('username')
                 const localRole = localStorage.getItem('role')
@@ -33,15 +36,21 @@ function AdminDashboard() {
                 }
             }
             catch (err) {
-                 localStorage.clear()
+                localStorage.clear()
                 navigate("/login")
             }
         }
 
-         verifyAuth()
+       
+        verifyAuth()
+        
     }, [])
     return (
-        <h1>AdminDashboard</h1>
+        <div>
+            <h1>AdminDashboard</h1>
+            <ExecutiveList />
+        </div>
+
     )
 }
 
