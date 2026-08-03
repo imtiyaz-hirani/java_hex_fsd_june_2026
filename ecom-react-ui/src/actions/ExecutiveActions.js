@@ -13,10 +13,13 @@ export const getAll = () => async (dispatch) => {
 }
 
 
-export const deleteById = (id) => ({
-    type: "DELETE_EXECUTIVE",
-    payload: ""
-})
+export const deleteById = (id) => (dispatch)=> {
+    // api call to delete from actual DB 
+    dispatch({
+        type: "DELETE_EXECUTIVE",
+        payload: ""
+    })
+} 
 export const add = (executive) => ({
     type: "GET_ONE",
     payload: ""

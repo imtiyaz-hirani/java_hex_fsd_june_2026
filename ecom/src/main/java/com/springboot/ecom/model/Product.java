@@ -28,5 +28,5 @@ public class Product { //p
     @JoinColumn(name = "category_id" , nullable = false)
     private Category category; //p.category
 
-
+    private String imageUrl;
 }

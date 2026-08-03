@@ -4,12 +4,16 @@ import com.springboot.ecom.dto.request.ProductReqDto;
 import com.springboot.ecom.dto.response.OrderDto;
 import com.springboot.ecom.dto.response.ProductResDto;
 import com.springboot.ecom.dto.response.ProductResStatDto;
+import com.springboot.ecom.dto.response.UploadDto;
 import com.springboot.ecom.enums.ProductPriceFilter;
+import com.springboot.ecom.model.Product;
 import com.springboot.ecom.service.ProductService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.security.Principal;
 import java.util.List;
 
@@ -54,5 +58,11 @@ public class ProductController {
         // get the username of logged in user
         String customerUsername = principal.getName();
         return productService.getProductsPurchasedByCustomerUsername(customerUsername, page,size);
+    }
+
+    @PostMapping("/image/upload/{productId}")
+    public UploadDto uploadImage(@PathVariable long productId,
+                                 @RequestParam("pImage") MultipartFile imageFile) throws IOException {
+        return productService.uploadImage(productId, imageFile);
     }
 }

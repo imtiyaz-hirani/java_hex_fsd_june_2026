@@ -1,6 +1,7 @@
 package com.springboot.ecom.config;
 
 import com.springboot.ecom.dto.response.ErrorMessageDto;
+import com.springboot.ecom.exception.FileUploadException;
 import com.springboot.ecom.exception.InvalidCredentialsException;
 import com.springboot.ecom.exception.ResourceNotFoundException;
 import org.slf4j.Logger;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -65,6 +67,26 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(RuntimeException.class)
     public ResponseEntity<ErrorMessageDto> handleRuntimeException(
             RuntimeException e
+    ){
+        return ResponseEntity
+                .badRequest()
+                .body(new ErrorMessageDto(e.getMessage()));
+    }
+
+    //FileUploadException
+    @ExceptionHandler(FileUploadException.class)
+    public ResponseEntity<ErrorMessageDto> handleFileUploadException(
+            FileUploadException e
+    ){
+        return ResponseEntity
+                .badRequest()
+                .body(new ErrorMessageDto(e.getMessage()));
+    }
+
+    // IOException
+    @ExceptionHandler(IOException.class)
+    public ResponseEntity<ErrorMessageDto> handleIOException(
+            IOException e
     ){
         return ResponseEntity
                 .badRequest()
