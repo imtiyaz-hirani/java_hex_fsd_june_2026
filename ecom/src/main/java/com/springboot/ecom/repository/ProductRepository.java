@@ -61,6 +61,12 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     List<Product> getProductBySellerId(long id);
 
 
+    @Query("""
+             select p
+             from Product p join p.seller s
+             where s.user.username = ?1
+             """)
+    List<Product> getBySeller(String loggedInSellerUsername);
 }
 /*
 findByCategoryId:

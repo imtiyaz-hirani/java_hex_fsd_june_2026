@@ -55,6 +55,7 @@ public class SecurityConfig {
                         // Seller API
                         .requestMatchers("/api/seller/de-activate").hasAnyAuthority("SELLER", "ADMIN")
                         .requestMatchers("/api/product/image/upload/{productId}").hasAnyAuthority("SELLER", "ADMIN")
+                        .requestMatchers("/api/product/by-seller").hasAnyAuthority("SELLER")
 
                         // Executive API
                         .requestMatchers("/api/product/count/for-each-seller").hasAuthority("EXECUTIVE")

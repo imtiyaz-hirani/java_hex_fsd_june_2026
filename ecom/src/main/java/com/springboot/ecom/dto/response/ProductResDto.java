@@ -4,6 +4,7 @@ public record ProductResDto(
         String title,
         long id,
         double price,
-        String sellerName
+        String sellerName,
+        String imageUrl
 ) {
 }

@@ -1,7 +1,12 @@
-function SellerDashboard(){
+import SellerProductList from "./SellerProductList"
+ 
+function SellerDashboard() {
 
-    return(
-        <h1>SellerDashboard</h1>
+    return (
+        <div>
+            <h1>SellerDashboard</h1>
+            <SellerProductList />
+        </div>
     )
 }
 

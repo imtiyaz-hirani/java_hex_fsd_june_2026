@@ -137,4 +137,11 @@ public class ProductService {
                 "File upload success"
         );
     }
+
+    public List<ProductResDto> getProductsBySeller(String loggedInSellerUsername) {
+        List<Product> list = productRepository.getBySeller(loggedInSellerUsername);
+        return list.stream()
+                .map(ProductMapper::convertEntityToDto)
+                .toList();
+    }
 }

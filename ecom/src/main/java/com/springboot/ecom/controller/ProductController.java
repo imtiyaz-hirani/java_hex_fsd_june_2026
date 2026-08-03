@@ -65,4 +65,10 @@ public class ProductController {
                                  @RequestParam("pImage") MultipartFile imageFile) throws IOException {
         return productService.uploadImage(productId, imageFile);
     }
+
+    @GetMapping("/by-seller")
+    public List<ProductResDto> getProductsBySeller(Principal principal){
+        String loggedInSellerUsername = principal.getName();
+        return productService.getProductsBySeller(loggedInSellerUsername);
+    }
 }
