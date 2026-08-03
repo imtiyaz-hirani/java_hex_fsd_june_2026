@@ -7,6 +7,8 @@ function SellerProductList() {
     const [img, setImg] = useState('')
     const [msg, setMsg] = useState('')
     const [count, setCount] = useState(0)
+    const [progress, setProgress] = useState(0)
+
     useEffect(() => {
         const getAllProducts = async () => {
             const response = await axios.get('http://localhost:8080/api/product/by-seller',
@@ -34,10 +36,13 @@ function SellerProductList() {
                 {
                     headers: {
                         'Authorization': 'Bearer ' + localStorage.getItem('token')
+                    },
+                    onUploadProgress: ($event) => {
+                        setProgress(Math.round($event.loaded * 100 / $event.total))
                     }
                 }
             )
-            setCount(count+1)
+            setCount(count + 1)
             setMsg(response?.data?.message)
 
         }
@@ -50,22 +55,31 @@ function SellerProductList() {
         <div>
             <h1>ProductList</h1>
             {
+                progress === 0 ? "" : <div className="alert alert-primary">
+                {
+                    progress + '%'
+                }
+            </div>
+            }
+            
+            {
                 products.map((p, index) => (
                     <div key={index}>
-                         
-                        {p.imageUrl !== null? 
-                        <img src = {`images/${p.imageUrl.split('images\\')[1]}`} style={{'width': '75px'}}/> : ""
+
+                        {p.imageUrl !== null ?
+                            <img src={`images/${p.imageUrl.split('images\\')[1]}`} style={{ 'width': '75px' }} /> : ""
                         }
                         <br />
                         {p.title} <br />
                         INR. {p.price} <br />
 
                         <input type="file" onChange={($event) => setImg($event.target.files[0])} />
-                         {msg}
+                        <br /> &nbsp;&nbsp;&nbsp;
+
                         <button className="btn btn-secondary" onClick={() => upload(p.id)}> Upload Image </button>
                         <hr />
                     </div>
-                    
+
                 ))
             }
         </div>

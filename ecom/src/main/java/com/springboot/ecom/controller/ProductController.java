@@ -62,7 +62,8 @@ public class ProductController {
 
     @PostMapping("/image/upload/{productId}")
     public UploadDto uploadImage(@PathVariable long productId,
-                                 @RequestParam("pImage") MultipartFile imageFile) throws IOException {
+                                 @RequestParam("pImage") MultipartFile imageFile) throws IOException, InterruptedException {
+
         return productService.uploadImage(productId, imageFile);
     }
 
