@@ -38,6 +38,7 @@ function SellerProductList() {
                         'Authorization': 'Bearer ' + localStorage.getItem('token')
                     },
                     onUploadProgress: ($event) => {
+                        
                         setProgress(Math.round($event.loaded * 100 / $event.total))
                     }
                 }
